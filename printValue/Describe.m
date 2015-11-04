@@ -1,115 +1,121 @@
 //
-//  PModel.m
-//  TPModel
+//  Describe.m
+//  TPobject
 //
 //  Created by jiangliancheng on 15/11/3.
 //  Copyright © 2015年 jiangliancheng. All rights reserved.
 //
 
-#import "PModel.h"
+#import "Describe.h"
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 
 #define __String(fmt, ...)  [NSString stringWithFormat:fmt, ##__VA_ARGS__]
 
-static inline NSArray *basicClassList();
-static inline NSArray *setClassList();
+static NSArray *basicClassList;
+static NSArray *setClassList;
+static inline void initClassList();
+
 static inline NSString *tapString(NSString *string);
-
 static inline NSString *NSStringFromCATransform3D(CATransform3D transform);
+static inline NSString *describeBasicClass(NSString *classString,id object);
+static inline NSString *describeNSValue(NSValue *value);
+static inline NSString *describeSet(NSString *setClass,NSSet *list);
+static inline NSString *describeDictionary(NSDictionary *map);
+static inline NSString *describeObject(id object);
 
-static inline NSString *printValueOfBasicClass(NSString *classString,id model);
-static inline NSString *printValueOfNSValue(NSValue *value);
-static inline NSString *printValueOfSet(NSString *setClass,NSSet *list);
-static inline NSString *printValueOfDictionary(NSDictionary *map);
-static inline NSString *printValueOfModel(id model);
 
-
-NSString *printValue(id model)
+NSString *describe(id object)
 {
-    if (model == nil)
+    initClassList();
+    
+    if (object == nil)
     {
         return @"nil";
     }
 
-    for (NSString *classString in basicClassList())
+    for (NSString *classString in basicClassList)
     {
-        if ([model isKindOfClass:NSClassFromString(classString)]){
-            return printValueOfBasicClass(classString,model);
+        if ([object isKindOfClass:NSClassFromString(classString)]){
+            return describeBasicClass(classString,object);
         }
     }
     
-    if ([model isKindOfClass:[NSValue class]]) {
-        return printValueOfNSValue(model);
+    if ([object isKindOfClass:[NSValue class]]) {
+        return describeNSValue(object);
     }
     
-    for (NSString *setClass in setClassList()) {
-        if ([model isKindOfClass:NSClassFromString(setClass)]) {
-            return printValueOfSet(setClass, model);
+    for (NSString *setClass in setClassList) {
+        if ([object isKindOfClass:NSClassFromString(setClass)]) {
+            return describeSet(setClass, object);
         }
     }
     
-    if ([model isKindOfClass:[NSDictionary class]]) {
-        return printValueOfDictionary(model);
+    if ([object isKindOfClass:[NSDictionary class]]) {
+        return describeDictionary(object);
     }
     
-    return printValueOfModel(model);
+    return describeObject(object);
 }
 
 #pragma mark - handle
 
-static inline NSString *printValueOfBasicClass(NSString *classString,id model)
+static inline NSString *describeBasicClass(NSString *classString,id object)
 {
-    return __String(@"(%@ *)%@",classString,model);
+    return __String(@"(%@ *)%@",classString,object);
 }
 
-static inline NSString *printValueOfSet(NSString *setClass,NSSet *list)
+static inline NSString *describeSet(NSString *setClass,NSSet *list)
 {
     NSMutableString *printString = [NSMutableString string];
     [printString appendFormat:@"(%@ *)[",setClass];
     for (id value in list) {
-        NSString *string = __String(@"\n%@",printValue(value));
+        NSString *string = __String(@"\n%@",describe(value));
         [printString appendString:tapString(string)];
     }    [printString appendString:@"\n]"];
     return printString;
 }
 
-static inline NSString *printValueOfDictionary(NSDictionary *map)
+static inline NSString *describeDictionary(NSDictionary *map)
 {
     NSMutableString *printString = [NSMutableString string];
     [printString appendString:@"{"];
     for (id key in map.allKeys) {
-        NSString *string = __String(@"\n%@:%@",key,printValue(map[key]));
+        NSString *string = __String(@"\n%@:%@",key,describe(map[key]));
         [printString appendString:tapString(string)];
     }
     [printString appendString:@"\n}"];
     return printString;
 }
 
-static inline NSString *printValueOfModel(id model)
+static inline NSString *describeObject(id object)
 {
-    NSMutableString *printString = [NSMutableString string];
+    if ([object isMemberOfClass:[NSObject class]]) {
+        return [object description];
+    }
 
     uint propertyCount;
-    objc_property_t *propertyList = class_copyPropertyList([model class], &propertyCount);
+    objc_property_t *propertyList = class_copyPropertyList([object class], &propertyCount);
     
     if (propertyCount == 0) {
-        return [model description];
+        return [object description];
     }
     
-    [printString appendFormat:@"(%@ *){",[model class]];
+    NSMutableString *printString = [NSMutableString string];
+    [printString appendFormat:@"(%@ *){",[object class]];
     for (int i = 0; i < propertyCount; i++) {
         objc_property_t property = propertyList[i];
         const char *name = property_getName(property);
-        id value = [model valueForKey:@(name)];
-        NSString *string = __String(@"\n%@ = %@",@(name),printValue(value));
+        
+        id value = [object valueForKey:@(name)];
+        NSString *string = __String(@"\n%@ = %@",@(name),describe(value));
         [printString appendString:tapString(string)];
     }
     [printString appendString:@"\n}"];
     return printString;
 }
 
-static inline NSString *printValueOfNSValue(NSValue *value)
+static inline NSString *describeNSValue(NSValue *value)
 {
     //NSNumber
     if (strcmp(value.objCType, @encode(short)) == 0) {
@@ -154,7 +160,6 @@ static inline NSString *printValueOfNSValue(NSValue *value)
     if (strcmp(value.objCType, @encode(unsigned char)) == 0) {
         return __String(@"(unsigned char)%@",value);
     }
-
     
     //basic type
     if (strcmp(value.objCType, @encode(CGPoint)) == 0) {
@@ -202,27 +207,17 @@ static inline NSString *printValueOfNSValue(NSValue *value)
 }
 
 
-
-#pragma mark - NSString
+#pragma mark - help
                         
-static inline NSArray *basicClassList()
+static inline void initClassList()
 {
-    static NSArray *basicClassList;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        basicClassList = @[@"NSString",@"NSURL",@"NSDate"];
-    });
-    return basicClassList;
-}
-
-static inline NSArray *setClassList()
-{
-    static NSArray *setClassList;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+        basicClassList = @[@"NSString",@"NSURL",@"NSDate",@"UIView",@"UIViewController"];
         setClassList = @[@"NSArray",@"NSSet",@"NSOrderedSet",@"NSPointerArray"];
     });
-    return setClassList;
+    
+    return;
 }
 
 static inline NSString *tapString(NSString *string)

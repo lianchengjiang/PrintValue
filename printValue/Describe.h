@@ -1,5 +1,5 @@
 //
-//  PModel.h
+//  Describe.h
 //  TPModel
 //
 //  Created by jiangliancheng on 15/11/3.
@@ -8,4 +8,4 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString *printValue(id model);
+extern NSString *describe(id object);

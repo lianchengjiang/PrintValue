@@ -13,7 +13,8 @@
 		755064731BE998B20045DAEB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 755064711BE998B20045DAEB /* Main.storyboard */; };
 		755064751BE998B20045DAEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 755064741BE998B20045DAEB /* Assets.xcassets */; };
 		755064781BE998B20045DAEB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 755064761BE998B20045DAEB /* LaunchScreen.storyboard */; };
-		755064821BE999820045DAEB /* PModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 755064811BE999820045DAEB /* PModel.m */; };
+		755064821BE999820045DAEB /* Describe.m in Sources */ = {isa = PBXBuildFile; fileRef = 755064811BE999820045DAEB /* Describe.m */; };
+		755064851BE9F5F80045DAEB /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 755064841BE9F5F80045DAEB /* Model.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,8 +28,10 @@
 		755064741BE998B20045DAEB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		755064771BE998B20045DAEB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		755064791BE998B20045DAEB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		755064801BE999820045DAEB /* PModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PModel.h; sourceTree = "<group>"; };
-		755064811BE999820045DAEB /* PModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PModel.m; sourceTree = "<group>"; };
+		755064801BE999820045DAEB /* Describe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Describe.h; sourceTree = "<group>"; };
+		755064811BE999820045DAEB /* Describe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Describe.m; sourceTree = "<group>"; };
+		755064831BE9F5F80045DAEB /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
+		755064841BE9F5F80045DAEB /* Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +67,8 @@
 			children = (
 				7550646B1BE998B20045DAEB /* AppDelegate.h */,
 				7550646C1BE998B20045DAEB /* AppDelegate.m */,
+				755064831BE9F5F80045DAEB /* Model.h */,
+				755064841BE9F5F80045DAEB /* Model.m */,
 				7550646E1BE998B20045DAEB /* ViewController.h */,
 				7550646F1BE998B20045DAEB /* ViewController.m */,
 				755064711BE998B20045DAEB /* Main.storyboard */,
@@ -86,8 +91,8 @@
 		7550647F1BE999820045DAEB /* printValue */ = {
 			isa = PBXGroup;
 			children = (
-				755064801BE999820045DAEB /* PModel.h */,
-				755064811BE999820045DAEB /* PModel.m */,
+				755064801BE999820045DAEB /* Describe.h */,
+				755064811BE999820045DAEB /* Describe.m */,
 			);
 			name = printValue;
 			path = ../printValue;
@@ -163,10 +168,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				755064821BE999820045DAEB /* PModel.m in Sources */,
+				755064821BE999820045DAEB /* Describe.m in Sources */,
 				755064701BE998B20045DAEB /* ViewController.m in Sources */,
 				7550646D1BE998B20045DAEB /* AppDelegate.m in Sources */,
 				7550646A1BE998B20045DAEB /* main.m in Sources */,
+				755064851BE9F5F80045DAEB /* Model.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
