@@ -10,11 +10,11 @@
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 
-static inline NSArray *baseClassList();
+static inline NSArray *basicClassList();
 static inline NSArray *setClassList();
 static inline NSString *tapString(NSString *string);
 
-static inline NSString *printValueOfBaseClass(NSString *classString,id model);
+static inline NSString *printValueOfBasicClass(NSString *classString,id model);
 static inline NSString *printValueOfSet(NSString *setClass,NSSet *list);
 static inline NSString *printValueOfDictionary(NSDictionary *map);
 static inline NSString *printValueOfModel(id model);
@@ -27,10 +27,10 @@ NSString *printValue(id model)
         return @"nil";
     }
 
-    for (NSString *classString in baseClassList())
+    for (NSString *classString in basicClassList())
     {
         if ([model isKindOfClass:NSClassFromString(classString)]){
-            return printValueOfBaseClass(classString,model);
+            return printValueOfBasicClass(classString,model);
         }
     }
     
@@ -49,7 +49,7 @@ NSString *printValue(id model)
 
 #pragma mark - handle
 
-static inline NSString *printValueOfBaseClass(NSString *classString,id model)
+static inline NSString *printValueOfBasicClass(NSString *classString,id model)
 {
     return [NSString stringWithFormat:@"(%@ *)%@",classString,model];
 }
@@ -102,19 +102,19 @@ static inline NSString *printValueOfModel(id model)
 
 
 #pragma mark - NSString
-static inline NSArray *baseClassList()
+static inline NSArray *basicClassList()
 {
-    static NSArray *baseClassList;
+    static NSArray *basicClassList;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        baseClassList = @[@"NSString",@"NSNumber",@"NSAttributedString",@"NSBundle",
+        basicClassList = @[@"NSString",@"NSNumber",@"NSAttributedString",@"NSBundle",
                           @"NSCache",@"NSCalendar",@"NSCharacterSet",@"NSCoder",
                           @"NSData",@"NSDate",@"NSFormatter",@"NSIndexPath",
                           @"NSIndexSet",@"NSInvocation",@"NSItemProvider",
                           @"NSNotification",@"NSThread",@"NSTimer",@"NSTimeZone",
                           @"NSURL"];
     });
-    return baseClassList;
+    return basicClassList;
 }
 
 static inline NSArray *setClassList()
@@ -129,12 +129,9 @@ static inline NSArray *setClassList()
 
 static inline NSString *tapString(NSString *string)
 {
-    //最后一个字符不要，避免最后是换行符把下一行也加tap了。
-    NSRange range = NSMakeRange(0, string.length - 1);
+
     NSString *tapString = [string stringByReplacingOccurrencesOfString:@"\n"
-                                                            withString:@"\n\t"
-                                                               options:0
-                                                                 range:range];
+                                                            withString:@"\n\t"];
     tapString = [NSString stringWithFormat:@"\t%@",tapString];
     return tapString;
     
