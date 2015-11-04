@@ -10,6 +10,7 @@
 
 #if DEBUG
 
+extern void print(void* object);
 extern NSString *describe(id object);
 
 #endif

@@ -34,12 +34,12 @@
     model.set = [NSSet setWithObjects:son,@"son2", nil];
 
     NSLog(@"describe:\n%@",describe(model));
-    
+    print((__bridge void*)model);
 }
 
 - (void)test
 {
-    
+    printf("dd\n");
 }
 
 - (void)didReceiveMemoryWarning {

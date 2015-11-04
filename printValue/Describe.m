@@ -26,6 +26,15 @@ static inline NSString *describeSet(NSString *setClass,NSSet *list);
 static inline NSString *describeDictionary(NSDictionary *map);
 static inline NSString *describeObject(id object);
 
+void print(void* object)
+{
+    printf("%s",[describe((__bridge id)(object)) UTF8String]);
+}
+
+void print(id object)
+{
+    
+}
 
 NSString *describe(id object)
 {
