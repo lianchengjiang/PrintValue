@@ -8,4 +8,4 @@
 
 #import <Foundation/Foundation.h>
 
-//extern NSString *printValue(id model);
+extern NSString *printValue(id model);
