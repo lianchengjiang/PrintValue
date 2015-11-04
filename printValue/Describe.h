@@ -8,4 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#if DEBUG
+
 extern NSString *describe(id object);
+
+#endif

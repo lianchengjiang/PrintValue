@@ -10,6 +10,8 @@
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 
+#if DEBUG
+
 #define __String(fmt, ...)  [NSString stringWithFormat:fmt, ##__VA_ARGS__]
 
 static NSArray *basicClassList;
@@ -233,3 +235,5 @@ static inline NSString *NSStringFromCATransform3D(CATransform3D transform)
     NSString *string4 = __String(@"\n\tm41 = %g, m42 = %g, m43 = %g, m44 = %g\n}",transform.m31,transform.m32,transform.m33,transform.m34);
     return __String(@"%@%@%@%@",string1,string2,string3,string4);
 }
+
+#endif
