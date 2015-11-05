@@ -16,8 +16,7 @@
 #if DEBUG
 #define __FILE_PATH__     [[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String]
 
-#define LcPrint(x)  printf("❤️ %s, %s, Line:%d \n%s\n", __FILE_PATH__, __PRETTY_FUNCTION__, __LINE__,       \
-                        [describeVar(@encode(__typeof__(x)),x) UTF8String]);
+#define LcPrint(x)  printf("❤️%s, %s, Line:%d\n%s = %s\n", __FILE_PATH__, __PRETTY_FUNCTION__, __LINE__, #x, [describeVar(@encode(__typeof__(x)),x) UTF8String]);
 
 #else
 

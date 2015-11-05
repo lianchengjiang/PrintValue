@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 #import "LcPrintVar.h"
+#import "LcStringFromStruct.h"
 
 #if DEBUG
 
@@ -24,7 +25,6 @@ static inline NSString *describeSet(NSString *setClass,NSSet *list);
 static inline NSString *describeDictionary(NSDictionary *map);
 static inline NSString *describeNSObject(id object);
 
-extern NSString *NSStringFromCATransform3D(CATransform3D transform);
 
 
 void LcPrintObj(id obj)
@@ -171,23 +171,23 @@ static inline NSString *describeNSValue(NSValue *value)
     
     //basic type
     if (strcmp(value.objCType, @encode(CGPoint)) == 0) {
-        NSString *string = NSStringFromCGPoint([value CGPointValue]);
+        NSString *string = LcStringFromCGPoint([value CGPointValue]);
         return __String(@"(CGPoint)%@",string);
     }
     if (strcmp(value.objCType, @encode(CGSize)) == 0) {
-        NSString *string = NSStringFromCGSize([value CGSizeValue]);
+        NSString *string = LcStringFromCGSize([value CGSizeValue]);
         return __String(@"(CGSize)%@",string);
     }
     if (strcmp(value.objCType, @encode(CGVector)) == 0) {
-        NSString *string = NSStringFromCGVector([value CGVectorValue]);
+        NSString *string = LcStringFromCGVector([value CGVectorValue]);
         return __String(@"(CGVector)%@",string);
     }
     if (strcmp(value.objCType, @encode(CGRect)) == 0) {
-        NSString *string = NSStringFromCGRect([value CGRectValue]);
+        NSString *string = LcStringFromCGRect([value CGRectValue]);
         return __String(@"(CGRect)%@",string);
     }
     if (strcmp(value.objCType, @encode(NSRange)) == 0) {
-        return __String(@"(NSRange)%@",NSStringFromRange([value rangeValue]));
+        return __String(@"(NSRange)%@",LcStringFromNSRange([value rangeValue]));
     }
     if (strcmp(value.objCType, @encode(CFRange)) == 0) {
         CFRange range;
@@ -195,19 +195,19 @@ static inline NSString *describeNSValue(NSValue *value)
         return __String(@"(CFRange){%lu,%lu}",range.location,range.length);
     }
     if (strcmp(value.objCType, @encode(CGAffineTransform))  == 0) {
-        NSString *string = NSStringFromCGAffineTransform([value CGAffineTransformValue]);
+        NSString *string = LcStringFromCGAffineTransform([value CGAffineTransformValue]);
         return __String(@"(CGAffineTransform)%@",string);
     }
     if (strcmp(value.objCType, @encode(CATransform3D)) == 0) {
-        NSString *string = NSStringFromCATransform3D([value CATransform3DValue]);
+        NSString *string = LcStringFromCATransform3D([value CATransform3DValue]);
         return __String(@"(CATransform3D)%@",string);
     }
     if (strcmp(value.objCType, @encode(UIOffset)) == 0) {
-        NSString *string = NSStringFromUIOffset([value UIOffsetValue]);
+        NSString *string = LcStringFromUIOffset([value UIOffsetValue]);
         return __String(@"(UIOffset)%@",string);
     }
     if (strcmp(value.objCType, @encode(UIEdgeInsets)) == 0) {
-        NSString *string = NSStringFromUIEdgeInsets([value UIEdgeInsetsValue]);
+        NSString *string = LcStringFromUIEdgeInsets([value UIEdgeInsetsValue]);
         return __String(@"(UIEdgeInsets)%@",string);
     }
 

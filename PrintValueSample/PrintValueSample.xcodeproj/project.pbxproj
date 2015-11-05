@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7526B6741BEBAFA500E319E9 /* LcStringFromStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = 7526B6731BEBAFA500E319E9 /* LcStringFromStruct.m */; };
 		7550646A1BE998B20045DAEB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 755064691BE998B20045DAEB /* main.m */; };
 		7550646D1BE998B20045DAEB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7550646C1BE998B20045DAEB /* AppDelegate.m */; };
 		755064701BE998B20045DAEB /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7550646F1BE998B20045DAEB /* ViewController.m */; };
@@ -19,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7526B6721BEBAFA500E319E9 /* LcStringFromStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LcStringFromStruct.h; sourceTree = "<group>"; };
+		7526B6731BEBAFA500E319E9 /* LcStringFromStruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LcStringFromStruct.m; sourceTree = "<group>"; };
 		755064651BE998B20045DAEB /* PrintValueSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrintValueSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		755064691BE998B20045DAEB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7550646B1BE998B20045DAEB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -100,6 +103,8 @@
 				755064811BE999820045DAEB /* LcPrintObj.m */,
 				759C64FD1BEB00FB00AC8D47 /* LcPrintVar.h */,
 				759C64FE1BEB00FB00AC8D47 /* LcPrintVar.m */,
+				7526B6721BEBAFA500E319E9 /* LcStringFromStruct.h */,
+				7526B6731BEBAFA500E319E9 /* LcStringFromStruct.m */,
 			);
 			name = printValue;
 			path = ../printValue;
@@ -181,6 +186,7 @@
 				7550646D1BE998B20045DAEB /* AppDelegate.m in Sources */,
 				7550646A1BE998B20045DAEB /* main.m in Sources */,
 				755064851BE9F5F80045DAEB /* Model.m in Sources */,
+				7526B6741BEBAFA500E319E9 /* LcStringFromStruct.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,10 +296,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = PrintValueSample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.liancheng.PrintValueSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "../printValue/PrintValueSample-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -301,10 +310,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = PrintValueSample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.liancheng.PrintValueSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "../printValue/PrintValueSample-Bridging-Header.h";
 			};
 			name = Release;
 		};

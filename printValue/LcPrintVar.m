@@ -9,6 +9,7 @@
 #import "LcPrintVar.h"
 #import <UIKit/UIKit.h>
 #import "LcPrintObj.h"
+#import "LcStringFromStruct.h"
 
 #if DEBUG
 
@@ -19,18 +20,15 @@
 #define checkNumType(NumType)                                           \
     if (strcmp(type, @encode(NumType)) == 0) {                          \
         NumType param = (NumType)va_arg(variable_param_list, NumType);  \
-        return __String(@"(%s)%@",#NumType,@(param));                   \
+        return __String(@"(%s)%@",__STRING(NumType),@(param));                   \
 }
 
 #define checkStructType(StructType)                                     \
     if (strcmp(type, @encode(StructType)) == 0) {                       \
         StructType param = va_arg(variable_param_list, StructType);     \
-        return __String(@"(%s)%@",#StructType,NSStringFrom##StructType(param)); \
+        return __String(@"(%s)%@",__STRING(StructType),LcStringFrom##StructType(param)); \
     }
 
-extern NSString *NSStringFromCATransform3D(CATransform3D transform);
-static inline NSString *NSStringFromNSRange(NSRange range);
-static inline NSString *NSStringFromCFRange(CFRange range);
 
 static inline NSString *__describeVar(const char *type, va_list variable_param_list);
 
@@ -56,11 +54,11 @@ static inline NSString *__describeVar(const char *type, va_list variable_param_l
     }
     if (strcmp(type, @encode(char)) == 0) {
         char param = va_arg(variable_param_list, char);
-        return __String(@"(char)%c",param);
+        return __String(@"(char)'%c'",param);
     }
     if (strcmp(type, @encode(unsigned char)) == 0) {
         unsigned char param = va_arg(variable_param_list, unsigned char);
-        return __String(@"(char)%c",param);
+        return __String(@"(unsigned char)'%c'",param);
     }
     
     checkNumType(int);
@@ -73,7 +71,9 @@ static inline NSString *__describeVar(const char *type, va_list variable_param_l
     checkNumType(unsigned long long);
     checkNumType(float);
     checkNumType(double);
+    checkNumType(char *);
     
+//    checkStructType(Class);
     checkStructType(CGPoint);
     checkStructType(CGSize);
     checkStructType(CGVector);
@@ -85,29 +85,13 @@ static inline NSString *__describeVar(const char *type, va_list variable_param_l
     checkStructType(UIOffset);
     checkStructType(UIEdgeInsets);
     
-    return @"UnKnown Type😂";
+    void * param = (void *)va_arg(variable_param_list, void *);
+    return [NSString stringWithFormat:@"%p", param];
 }
 
 #pragma mark - inline
 
-NSString *NSStringFromCATransform3D(CATransform3D transform)
-{
-    NSString *string1 = __String(@"{\n\tm11 = %g, m12 = %g, m13 = %g, m14 = %g",transform.m11,transform.m12,transform.m13,transform.m14);
-    NSString *string2 = __String(@"\n\tm21 = %g, m22 = %g, m23 = %g, m24 = %g",transform.m21,transform.m22,transform.m23,transform.m24);
-    NSString *string3 = __String(@"\n\tm31 = %g, m32 = %g, m33 = %g, m34 = %g",transform.m31,transform.m32,transform.m33,transform.m34);
-    NSString *string4 = __String(@"\n\tm41 = %g, m42 = %g, m43 = %g, m44 = %g\n}",transform.m31,transform.m32,transform.m33,transform.m34);
-    return __String(@"%@%@%@%@",string1,string2,string3,string4);
-}
 
-static inline NSString *NSStringFromNSRange(NSRange range)
-{
-    return NSStringFromRange(range);
-}
-
-static inline NSString *NSStringFromCFRange(CFRange range)
-{
-    return __String(@"{%lu,%lu}",range.location,range.length);
-}
 
 
 #undef checkNumType

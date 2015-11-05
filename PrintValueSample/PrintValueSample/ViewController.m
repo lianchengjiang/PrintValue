@@ -12,6 +12,10 @@
 #import "LcPrintVar.h"
 #import "LcPrintObj.h"
 
+#define TEST_TYPE(TYPE)     {   \
+TYPE a = (TYPE)97;              \
+LcPrint(a)                      \
+}
 
 
 @interface ViewController ()
@@ -23,29 +27,44 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+   
     
-    SonModel *son = [SonModel new];
-    son.string = @"string";
-    son.number = @(3.0);
-    son.URL = [NSURL URLWithString:@"https://www.baidu.com/"];
-    son.date = [NSDate date];
-
-    Model *model = [Model new];
-    model.array = @[son,son];
-    model.dictionary = @{@"key":son};
-    model.set = [NSSet setWithObjects:son,@"son2", nil];
-
-    char a = 'a';
-    unsigned char b = 'c';
-    id x = model;
-    NSLog(@"a");
-    LcPrint(a);
+    
+    [self test];
 }
 
 
 - (void)test
 {
-    printf("dd\n");
+    TEST_TYPE(int);
+    TEST_TYPE(short);
+    TEST_TYPE(long);
+    TEST_TYPE(long long);
+    TEST_TYPE(unsigned int);
+    TEST_TYPE(unsigned short);
+    TEST_TYPE(unsigned long);
+    TEST_TYPE(unsigned long long);
+    TEST_TYPE(float);
+    TEST_TYPE(double);
+    TEST_TYPE(BOOL);
+    TEST_TYPE(char);
+    TEST_TYPE(unsigned char);
+    
+    LcPrint([self class]);
+    LcPrint(CGPointMake(3.8, 4.1));
+    LcPrint(CGSizeMake(8.3, 9));
+    LcPrint(CGVectorMake(0.4, 7.4));
+    LcPrint(NSMakeRange(3, 6.4));
+    LcPrint(CFRangeMake(2, 6.6));
+    LcPrint(CGAffineTransformMake(1.3, 2.4, 4.5, 3, 6, 6.3));
+    LcPrint(CATransform3DIdentity);
+    LcPrint(UIOffsetMake(5.2, 2));
+    LcPrint(UIEdgeInsetsMake(9, 3, 2, 4));
+    LcPrint(CGRectMake(0, 0.4, 8.3, 8.1));
+    
+    
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {

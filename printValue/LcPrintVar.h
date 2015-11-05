@@ -10,7 +10,6 @@
 
 #if DEBUG
 
-#define __String(fmt, ...)  [NSString stringWithFormat:fmt, ##__VA_ARGS__]
 
 extern NSString *describeVar(const char * type, ...);
 
