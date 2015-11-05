@@ -7,8 +7,10 @@
 //
 
 #import "ViewController.h"
-#import "Describe.h"
 #import "Model.h"
+#import "LcPrint.h"
+#import "LcPrintVar.h"
+#import "LcPrintObj.h"
 
 
 
@@ -24,18 +26,22 @@
     
     SonModel *son = [SonModel new];
     son.string = @"string";
-    son.number = @(3);
+    son.number = @(3.0);
     son.URL = [NSURL URLWithString:@"https://www.baidu.com/"];
     son.date = [NSDate date];
-    
+
     Model *model = [Model new];
     model.array = @[son,son];
     model.dictionary = @{@"key":son};
     model.set = [NSSet setWithObjects:son,@"son2", nil];
 
-    NSLog(@"describe:\n%@",describe(model));
-    print((__bridge void*)model);
+    char a = 'a';
+    unsigned char b = 'c';
+    id x = model;
+    NSLog(@"a");
+    LcPrint(a);
 }
+
 
 - (void)test
 {

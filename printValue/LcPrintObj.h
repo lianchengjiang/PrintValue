@@ -8,9 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+
 #if DEBUG
 
-extern void print(void* object);
-extern NSString *describe(id object);
+extern void LcPrintObj(id obj);
+extern NSString *describeObj(id object);
 
 #endif

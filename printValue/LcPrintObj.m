@@ -6,37 +6,34 @@
 //  Copyright © 2015年 jiangliancheng. All rights reserved.
 //
 
-#import "Describe.h"
+#import "LcPrintObj.h"
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
+#import "LcPrintVar.h"
 
 #if DEBUG
-
-#define __String(fmt, ...)  [NSString stringWithFormat:fmt, ##__VA_ARGS__]
 
 static NSArray *basicClassList;
 static NSArray *setClassList;
 static inline void initClassList();
 
 static inline NSString *tapString(NSString *string);
-static inline NSString *NSStringFromCATransform3D(CATransform3D transform);
 static inline NSString *describeBasicClass(NSString *classString,id object);
 static inline NSString *describeNSValue(NSValue *value);
 static inline NSString *describeSet(NSString *setClass,NSSet *list);
 static inline NSString *describeDictionary(NSDictionary *map);
-static inline NSString *describeObject(id object);
+static inline NSString *describeNSObject(id object);
 
-void print(void* object)
+extern NSString *NSStringFromCATransform3D(CATransform3D transform);
+
+
+void LcPrintObj(id obj)
 {
-    printf("%s",[describe((__bridge id)(object)) UTF8String]);
+    printf("%s\n",[describeObj(obj) UTF8String]);
 }
 
-void print(id object)
-{
-    
-}
 
-NSString *describe(id object)
+NSString *describeObj(id object)
 {
     initClassList();
     
@@ -66,7 +63,7 @@ NSString *describe(id object)
         return describeDictionary(object);
     }
     
-    return describeObject(object);
+    return describeNSObject(object);
 }
 
 #pragma mark - handle
@@ -81,7 +78,7 @@ static inline NSString *describeSet(NSString *setClass,NSSet *list)
     NSMutableString *printString = [NSMutableString string];
     [printString appendFormat:@"(%@ *)[",setClass];
     for (id value in list) {
-        NSString *string = __String(@"\n%@",describe(value));
+        NSString *string = __String(@"\n%@",describeObj(value));
         [printString appendString:tapString(string)];
     }    [printString appendString:@"\n]"];
     return printString;
@@ -92,14 +89,14 @@ static inline NSString *describeDictionary(NSDictionary *map)
     NSMutableString *printString = [NSMutableString string];
     [printString appendString:@"{"];
     for (id key in map.allKeys) {
-        NSString *string = __String(@"\n%@:%@",key,describe(map[key]));
+        NSString *string = __String(@"\n%@:%@",key,describeObj(map[key]));
         [printString appendString:tapString(string)];
     }
     [printString appendString:@"\n}"];
     return printString;
 }
 
-static inline NSString *describeObject(id object)
+static inline NSString *describeNSObject(id object)
 {
     if ([object isMemberOfClass:[NSObject class]]) {
         return [object description];
@@ -119,7 +116,7 @@ static inline NSString *describeObject(id object)
         const char *name = property_getName(property);
         
         id value = [object valueForKey:@(name)];
-        NSString *string = __String(@"\n%@ = %@",@(name),describe(value));
+        NSString *string = __String(@"\n%@ = %@",@(name),describeObj(value));
         [printString appendString:tapString(string)];
     }
     [printString appendString:@"\n}"];
@@ -236,13 +233,6 @@ static inline NSString *tapString(NSString *string)
     return [string stringByReplacingOccurrencesOfString:@"\n" withString:@"\n\t"];
 }
 
-static inline NSString *NSStringFromCATransform3D(CATransform3D transform)
-{
-    NSString *string1 = __String(@"{\n\tm11 = %g, m12 = %g, m13 = %g, m14 = %g",transform.m11,transform.m12,transform.m13,transform.m14);
-    NSString *string2 = __String(@"\n\tm21 = %g, m22 = %g, m23 = %g, m24 = %g",transform.m21,transform.m22,transform.m23,transform.m24);
-    NSString *string3 = __String(@"\n\tm31 = %g, m32 = %g, m33 = %g, m34 = %g",transform.m31,transform.m32,transform.m33,transform.m34);
-    NSString *string4 = __String(@"\n\tm41 = %g, m42 = %g, m43 = %g, m44 = %g\n}",transform.m31,transform.m32,transform.m33,transform.m34);
-    return __String(@"%@%@%@%@",string1,string2,string3,string4);
-}
+
 
 #endif
