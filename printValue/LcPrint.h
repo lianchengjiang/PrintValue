@@ -7,16 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "LcPrintObj.h"
+
+#define _LC_VALID_ONLY_DEBUG  1
+
+#define _LC_VALID  (!_LC_VALID_ONLY_DEBUG||DEBUG)
 
 
-#ifndef LcPrint_h
-#define LcPrint_h
+#if _LC_VALID
 
-#if DEBUG
 #define __FILE_PATH__     [[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String]
-
-#define LcPrint(x)  printf("❤️%s, %s, Line:%d\n%s = %s\n", __FILE_PATH__, __PRETTY_FUNCTION__, __LINE__, #x, [describeVar(@encode(__typeof__(x)),x) UTF8String]);
+#define LcPrint(x)  printf("❤️%s, %s, Line:%d\n%s = %s\n", __FILE_PATH__, __PRETTY_FUNCTION__, __LINE__, __STRING(x), [describeVar(@encode(typeof(x)),x) UTF8String])
 
 #else
 
@@ -24,6 +24,8 @@
 
 #endif
 
+extern NSString *describeObj(id object);
+extern NSString *describeVar(const char *type, ...);
 extern void LcPrintObj(id obj);
 
-#endif /* LcPrint_h */
+

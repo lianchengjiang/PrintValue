@@ -11,7 +11,3 @@
 @implementation Model
 
 @end
-
-@implementation SonModel
-
-@end

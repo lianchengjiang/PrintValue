@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#define __String(fmt, ...)  [NSString stringWithFormat:fmt, ##__VA_ARGS__]
+#define __LcString(fmt, ...)  [NSString stringWithFormat:fmt, ##__VA_ARGS__]
 
 extern NSString *LcStringFromCATransform3D(CATransform3D transform);
 extern NSString *LcStringFromCGPoint(CGPoint var);
@@ -22,6 +22,7 @@ extern NSString *LcStringFromNSRange(NSRange range);
 extern NSString *LcStringFromCFRange(CFRange range);
 extern NSString *LcStringFromCGRect(CGRect var);
 extern NSString *LcStringFromClass(Class class);
+
 
 
 
