@@ -6,7 +6,7 @@ PrintValue is a library, which can print suitable value of any object, especiall
 
 
 ##version 1.1
-introduce print any var function from [DeveloperLx/LxDBAnything](https://github.com/DeveloperLx/LxDBAnything)。you can use `LcPrint()` instead of `LcPrintObj()` to print any var in code.  but if you want to print object in LLDB,  you must use `LcPrintObj()`, because `LcPrint()` is macro, which is not supported in LLDB console. and if you want to print basic var(not a NSObject instance) in LLDB, using `p var` to direct print.
+introduce print any var function from [DeveloperLx/LxDBAnything](https://github.com/DeveloperLx/LxDBAnything)。you can use `LcPrint()` instead of `LcPrintObj()` to print any var in code.  but if you want to print object in LLDB,  you must use `LcPrintObj()`, because `LcPrint()` is macro, which is not supported in LLDB console. and if you want to print basic var(not a NSObject instance) in LLDB, using `p var` direct print it.
 
 ##Usage
 ###use `LcPrint()` print any var in code
