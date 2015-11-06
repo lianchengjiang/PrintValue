@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7526B6741BEBAFA500E319E9 /* LcStringFromStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = 7526B6731BEBAFA500E319E9 /* LcStringFromStruct.m */; };
+		750FD9741BEC875F00BCFC4F /* LcStringFromStruct.m in Sources */ = {isa = PBXBuildFile; fileRef = 750FD9731BEC875F00BCFC4F /* LcStringFromStruct.m */; };
 		7550646A1BE998B20045DAEB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 755064691BE998B20045DAEB /* main.m */; };
 		7550646D1BE998B20045DAEB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7550646C1BE998B20045DAEB /* AppDelegate.m */; };
 		755064701BE998B20045DAEB /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7550646F1BE998B20045DAEB /* ViewController.m */; };
@@ -18,8 +18,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7526B6721BEBAFA500E319E9 /* LcStringFromStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LcStringFromStruct.h; sourceTree = "<group>"; };
-		7526B6731BEBAFA500E319E9 /* LcStringFromStruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LcStringFromStruct.m; sourceTree = "<group>"; };
+		750FD96F1BEC875F00BCFC4F /* LcPrint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LcPrint.h; sourceTree = "<group>"; };
+		750FD9701BEC875F00BCFC4F /* LcPrintObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LcPrintObj.h; sourceTree = "<group>"; };
+		750FD9711BEC875F00BCFC4F /* LcPrintVar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LcPrintVar.h; sourceTree = "<group>"; };
+		750FD9721BEC875F00BCFC4F /* LcStringFromStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LcStringFromStruct.h; sourceTree = "<group>"; };
+		750FD9731BEC875F00BCFC4F /* LcStringFromStruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LcStringFromStruct.m; sourceTree = "<group>"; };
 		755064651BE998B20045DAEB /* PrintValueSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrintValueSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		755064691BE998B20045DAEB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7550646B1BE998B20045DAEB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -30,11 +33,8 @@
 		755064741BE998B20045DAEB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		755064771BE998B20045DAEB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		755064791BE998B20045DAEB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		755064801BE999820045DAEB /* LcPrintObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LcPrintObj.h; sourceTree = "<group>"; };
 		755064831BE9F5F80045DAEB /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 		755064841BE9F5F80045DAEB /* Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model.m; sourceTree = "<group>"; };
-		759C64FB1BEAFF8F00AC8D47 /* LcPrint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LcPrint.h; sourceTree = "<group>"; };
-		759C64FD1BEB00FB00AC8D47 /* LcPrintVar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LcPrintVar.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,10 +48,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		750FD96E1BEC875F00BCFC4F /* LcPrint */ = {
+			isa = PBXGroup;
+			children = (
+				750FD96F1BEC875F00BCFC4F /* LcPrint.h */,
+				750FD9701BEC875F00BCFC4F /* LcPrintObj.h */,
+				750FD9711BEC875F00BCFC4F /* LcPrintVar.h */,
+				750FD9721BEC875F00BCFC4F /* LcStringFromStruct.h */,
+				750FD9731BEC875F00BCFC4F /* LcStringFromStruct.m */,
+			);
+			name = LcPrint;
+			path = ../LcPrint;
+			sourceTree = "<group>";
+		};
 		7550645C1BE998B20045DAEB = {
 			isa = PBXGroup;
 			children = (
-				7550647F1BE999820045DAEB /* printValue */,
+				750FD96E1BEC875F00BCFC4F /* LcPrint */,
 				755064671BE998B20045DAEB /* PrintValueSample */,
 				755064661BE998B20045DAEB /* Products */,
 			);
@@ -89,19 +102,6 @@
 				755064691BE998B20045DAEB /* main.m */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		7550647F1BE999820045DAEB /* printValue */ = {
-			isa = PBXGroup;
-			children = (
-				759C64FB1BEAFF8F00AC8D47 /* LcPrint.h */,
-				755064801BE999820045DAEB /* LcPrintObj.h */,
-				759C64FD1BEB00FB00AC8D47 /* LcPrintVar.h */,
-				7526B6721BEBAFA500E319E9 /* LcStringFromStruct.h */,
-				7526B6731BEBAFA500E319E9 /* LcStringFromStruct.m */,
-			);
-			name = printValue;
-			path = ../printValue;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -177,8 +177,8 @@
 				755064701BE998B20045DAEB /* ViewController.m in Sources */,
 				7550646D1BE998B20045DAEB /* AppDelegate.m in Sources */,
 				7550646A1BE998B20045DAEB /* main.m in Sources */,
+				750FD9741BEC875F00BCFC4F /* LcStringFromStruct.m in Sources */,
 				755064851BE9F5F80045DAEB /* Model.m in Sources */,
-				7526B6741BEBAFA500E319E9 /* LcStringFromStruct.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
