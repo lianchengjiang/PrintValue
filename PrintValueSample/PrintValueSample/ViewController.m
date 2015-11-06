@@ -36,6 +36,9 @@ LcPrint(a)                      \
 
 - (void)test
 {
+    const char *type = @encode(char[]);
+    const char *type2 = @encode(typeof("--"));
+
     TEST_TYPE(int);
     TEST_TYPE(short);
     TEST_TYPE(long);
@@ -49,7 +52,8 @@ LcPrint(a)                      \
     TEST_TYPE(BOOL);
     TEST_TYPE(char);
     TEST_TYPE(unsigned char);
-    
+    NSLog(@"%s","______");
+    LcPrint("-------------");
     LcPrint([self class]);
     LcPrint(CGPointMake(3.8, 4.1));
     LcPrint(CGSizeMake(8.3, 9));
@@ -61,7 +65,6 @@ LcPrint(a)                      \
     LcPrint(UIOffsetMake(5.2, 2));
     LcPrint(UIEdgeInsetsMake(9, 3, 2, 4));
     LcPrint(CGRectMake(0, 0.4, 8.3, 8.1));
-    
     
     
     

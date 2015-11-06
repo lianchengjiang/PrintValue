@@ -60,7 +60,10 @@ static inline NSString *__describeVar(const char *type, va_list variable_param_l
         unsigned char param = va_arg(variable_param_list, unsigned char);
         return __String(@"(unsigned char)'%c'",param);
     }
-    
+    if (strcmp(type, @encode(char *)) == 0) {
+        char *param = va_arg(variable_param_list, char *);
+        return __String(@"(char *)\"%s\"",param);
+    }
     checkNumType(int);
     checkNumType(short);
     checkNumType(long);
@@ -73,7 +76,7 @@ static inline NSString *__describeVar(const char *type, va_list variable_param_l
     checkNumType(double);
     checkNumType(char *);
     
-//    checkStructType(Class);
+    checkStructType(Class);
     checkStructType(CGPoint);
     checkStructType(CGSize);
     checkStructType(CGVector);

@@ -192,7 +192,7 @@ static inline NSString *describeNSValue(NSValue *value)
     if (strcmp(value.objCType, @encode(CFRange)) == 0) {
         CFRange range;
         [value getValue:&range];
-        return __String(@"(CFRange){%lu,%lu}",range.location,range.length);
+        return __String(@"(CFRange)%@",LcStringFromCFRange(range));
     }
     if (strcmp(value.objCType, @encode(CGAffineTransform))  == 0) {
         NSString *string = LcStringFromCGAffineTransform([value CGAffineTransformValue]);

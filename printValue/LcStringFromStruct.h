@@ -21,6 +21,7 @@ extern NSString *LcStringFromUIEdgeInsets(UIEdgeInsets var);
 extern NSString *LcStringFromNSRange(NSRange range);
 extern NSString *LcStringFromCFRange(CFRange range);
 extern NSString *LcStringFromCGRect(CGRect var);
+extern NSString *LcStringFromClass(Class class);
 
 
 

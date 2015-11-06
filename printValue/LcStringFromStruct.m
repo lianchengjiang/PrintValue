@@ -52,7 +52,7 @@ NSString *LcStringFromUIEdgeInsets(UIEdgeInsets var)
 
 NSString *LcStringFromCGRect(CGRect var)
 {
-    return __String(@"{%@, %@}",LcStringFromCGPoint(var.origin),LcStringFromCGSize(var.size));
+    return __String(@"{\n\tCGPoint = %@\n\tCGSize  = %@\n}",LcStringFromCGPoint(var.origin),LcStringFromCGSize(var.size));
 }
 
 NSString *LcStringFromNSRange(NSRange range)
@@ -65,4 +65,8 @@ NSString *LcStringFromCFRange(CFRange range)
     return __String(@"{location = %lu, length = %lu}",range.location,range.length);
 }
 
+NSString *LcStringFromClass(Class class)
+{
+    return NSStringFromClass(class);
+}
 
