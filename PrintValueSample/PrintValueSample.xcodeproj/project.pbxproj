@@ -15,6 +15,8 @@
 		755064751BE998B20045DAEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 755064741BE998B20045DAEB /* Assets.xcassets */; };
 		755064781BE998B20045DAEB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 755064761BE998B20045DAEB /* LaunchScreen.storyboard */; };
 		755064851BE9F5F80045DAEB /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 755064841BE9F5F80045DAEB /* Model.m */; };
+		757544681BEC9854002ABDF8 /* LcPrintObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 757544671BEC9854002ABDF8 /* LcPrintObj.m */; };
+		7575446A1BEC98C8002ABDF8 /* LcPrintVar.m in Sources */ = {isa = PBXBuildFile; fileRef = 757544691BEC98C8002ABDF8 /* LcPrintVar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +37,8 @@
 		755064791BE998B20045DAEB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		755064831BE9F5F80045DAEB /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 		755064841BE9F5F80045DAEB /* Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model.m; sourceTree = "<group>"; };
+		757544671BEC9854002ABDF8 /* LcPrintObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LcPrintObj.m; sourceTree = "<group>"; };
+		757544691BEC98C8002ABDF8 /* LcPrintVar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LcPrintVar.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,7 +57,9 @@
 			children = (
 				750FD96F1BEC875F00BCFC4F /* LcPrint.h */,
 				750FD9701BEC875F00BCFC4F /* LcPrintObj.h */,
+				757544671BEC9854002ABDF8 /* LcPrintObj.m */,
 				750FD9711BEC875F00BCFC4F /* LcPrintVar.h */,
+				757544691BEC98C8002ABDF8 /* LcPrintVar.m */,
 				750FD9721BEC875F00BCFC4F /* LcStringFromStruct.h */,
 				750FD9731BEC875F00BCFC4F /* LcStringFromStruct.m */,
 			);
@@ -174,6 +180,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				757544681BEC9854002ABDF8 /* LcPrintObj.m in Sources */,
+				7575446A1BEC98C8002ABDF8 /* LcPrintVar.m in Sources */,
 				755064701BE998B20045DAEB /* ViewController.m in Sources */,
 				7550646D1BE998B20045DAEB /* AppDelegate.m in Sources */,
 				7550646A1BE998B20045DAEB /* main.m in Sources */,

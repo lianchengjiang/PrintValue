@@ -9,14 +9,6 @@
 #import "ViewController.h"
 #import "Model.h"
 #import "LcPrint.h"
-#import "LcPrintVar.h"
-#import "LcPrintObj.h"
-
-#define TEST_TYPE(TYPE)     {   \
-TYPE a = (TYPE)97;              \
-LcPrint(a)                      \
-}
-
 
 @interface ViewController ()
 
@@ -36,7 +28,6 @@ LcPrint(a)                      \
 
 - (void)test
 {
-    
     LcPrint((int)1);
     LcPrint((short)1);
     LcPrint((long)1);
