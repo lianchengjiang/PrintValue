@@ -112,10 +112,10 @@ static inline NSString *describeNSObject(id object)
 static inline NSString *describeNSValue(NSValue *value)
 {
     
-#define CheckBasicType(TYPE)                                \
-    if (strcmp(value.objCType, @encode(TYPE)) == 0) {       \
-        return __LcString(@"(%s)%@",__STRING(TYPE),value);  \
-    }
+#define CheckBasicType(TYPE)                            \
+if (strcmp(value.objCType, @encode(TYPE)) == 0) {       \
+    return __LcString(@"(%s)%@",__STRING(TYPE),value);  \
+}
 
     CheckBasicType(short);
     CheckBasicType(int);
@@ -198,16 +198,13 @@ static inline NSArray *propertyAndIvarNames(Class class)
         NSString *name = @(cName);
         
         //过滤Ivar和property相同的属性
-        NSString *propertyName = [name stringByReplacingOccurrencesOfString:@"_"
-                                                                 withString:@""
-                                                                    options:0
-                                                                      range:NSMakeRange(0, 1)];
-        if (![names containsObject:propertyName]) {
-            
-            //使用ivarIndex 主要是为了Ivar在Property前面，并且顺序正确
-            [names insertObject:name atIndex:ivarIndex];
-            ivarIndex++;
+        NSString *propertyName = [name stringByReplacingOccurrencesOfString:@"_" withString:@"" options:0 range:NSMakeRange(0, 1)];
+        if ([names containsObject:propertyName]) {
+            continue;
         }
+        //使用ivarIndex 主要是为了Ivar在Property前面，并且顺序正确
+        [names insertObject:name atIndex:ivarIndex];
+        ivarIndex++;
     }
     return names;
 }
