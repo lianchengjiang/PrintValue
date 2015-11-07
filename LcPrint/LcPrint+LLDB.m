@@ -16,7 +16,7 @@
 
 void o(id obj)
 {
-    printf("%s\n",[describeObj(obj) UTF8String]);
+    printf("❤️RootClass: %s\n",[describeObj(obj) UTF8String]);
 }
 
 void v(id view)
@@ -25,7 +25,7 @@ void v(id view)
         printf("this is not a view, please use 'p o(x)' instead\n");
     }
     
-    printf("%s\n",[describeViews(view) UTF8String]);
+    printf("❤️%s\n",[describeViews(view) UTF8String]);
 }
 
 #endif

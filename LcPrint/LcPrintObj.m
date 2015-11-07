@@ -20,22 +20,24 @@ static NSArray *basicNormalClassList;
 static NSArray *setClassList;
 static inline void initClassList();
 
-static inline NSString *__describeObj(id object, Class class);
+static inline NSString *__describeObj(id object, Class class, NSUInteger level);
 static inline NSString *tapString(NSString *string);
 static inline NSString *describeBasicClass(NSString *classString,id object);
 static inline NSString *describeNSValue(NSValue *value);
 static inline NSString *describeSet(NSString *setClass,NSSet *list);
 static inline NSString *describeDictionary(NSDictionary *map);
-static inline NSString *describeNSObject(id object, Class class);
+static inline NSString *describeNSObject(id object, Class class, NSUInteger level);
 static inline NSArray *propertyAndIvarNames(Class class);
+
+static inline NSString *superClassStar(NSUInteger starCount);
 
 
 NSString *describeObj(id object)
 {
-    return __describeObj(object, [object class]);
+    return __describeObj(object, [object class], 0);
 }
 
-static inline NSString *__describeObj(id object, Class class)
+static inline NSString *__describeObj(id object, Class class, NSUInteger level)
 {
     initClassList();
     
@@ -74,7 +76,7 @@ static inline NSString *__describeObj(id object, Class class)
     }
     
     //自定义类型
-    return describeNSObject(object, class);
+    return describeNSObject(object, class, level);
 }
 
 #pragma mark - handle
@@ -107,7 +109,7 @@ static inline NSString *describeDictionary(NSDictionary *map)
     return printString;
 }
 
-static inline NSString *describeNSObject(id object, Class class)
+static inline NSString *describeNSObject(id object, Class class, NSUInteger level)
 {
     if ([NSObject isSubclassOfClass:class]) {
         return [object description];
@@ -123,15 +125,16 @@ static inline NSString *describeNSObject(id object, Class class)
         [printString appendString:tapString(string)];
     }
     
+    [printString appendString:@"\n}"];
+
     // subClass
     Class superClass = class_getSuperclass(class);
     if (![NSObject isSubclassOfClass:superClass]) {
-        NSString *string = __LcString(@"\n❣️superClass : %@",
-                                      __describeObj(object,superClass));
-        [printString appendString:tapString(string)];
+        NSString *string = __LcString(@"\n%@SuperClass: %@",superClassStar(level+1),
+                                      __describeObj(object,superClass, level+1));
+        [printString appendString:string];
     }
     
-    [printString appendString:@"\n}"];
     return printString;
 }
 
@@ -234,6 +237,15 @@ static inline NSArray *propertyAndIvarNames(Class class)
         ivarIndex++;
     }
     return names;
+}
+
+static inline NSString *superClassStar(NSUInteger starCount)
+{
+    NSMutableString *star = [NSMutableString string];
+    for (int i = 0; i < starCount; i++) {
+        [star appendString:@"❣️"];
+    }
+    return star;
 }
 
 #undef __LcString

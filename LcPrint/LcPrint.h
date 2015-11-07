@@ -20,9 +20,9 @@
 
 #define __FILE_PATH__     [[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String]
 
-#define LcPrint(x)      printf("❤️%s, %s, Line:%d\n%s = %s\n", __FILE_PATH__, __PRETTY_FUNCTION__, __LINE__, __STRING(x), [describeVar(@encode(typeof(x)),(x)) UTF8String])
+#define LcPrint(x)      printf("%s, %s, Line:%d\n❤️%s = %s\n", __FILE_PATH__, __PRETTY_FUNCTION__, __LINE__, __STRING(x), [describeVar(@encode(typeof(x)),(x)) UTF8String])
 
-#define LcPrintViews(x)     printf("❤️%s, %s, Line:%d\nrecursiveDescription of (%s)\n%s\n", __FILE_PATH__, __PRETTY_FUNCTION__, __LINE__, __STRING(x), [describeViews(x) UTF8String])
+#define LcPrintViews(x)     printf("%s, %s, Line:%d\nrecursiveDescription of (%s)\n❤️%s\n", __FILE_PATH__, __PRETTY_FUNCTION__, __LINE__, __STRING(x), [describeViews(x) UTF8String])
 
 #else
 
