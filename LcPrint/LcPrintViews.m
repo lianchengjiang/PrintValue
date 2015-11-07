@@ -6,10 +6,9 @@
 //  Copyright © 2015年 jiangliancheng. All rights reserved.
 //
 
-#import "LcPrintAdvance.h"
-#define __LcString(fmt, ...)  [NSString stringWithFormat:fmt, ##__VA_ARGS__]
+#import "LcPrintViews.h"
+#import "LcPrintMacro.h"
 
-#pragma mark - print views
 
 static inline NSString *__describeViews(UIView *view, NSUInteger level);
 
@@ -43,8 +42,3 @@ static inline NSString *__describeViews(UIView *view, NSUInteger level)
     return describe;
 }
 
-#pragma mark - print internal
-
-
-    
-#undef __LcString
