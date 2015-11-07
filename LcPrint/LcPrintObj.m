@@ -23,7 +23,7 @@ static inline NSString *describeNSValue(NSValue *value);
 static inline NSString *describeSet(NSString *setClass,NSSet *list);
 static inline NSString *describeDictionary(NSDictionary *map);
 static inline NSString *describeNSObject(id object);
-static inline NSArray *propertyAndIvarNames(id object);
+static inline NSArray *propertyAndIvarNames(Class class);
 
 
 NSString *describeObj(id object)
@@ -95,11 +95,10 @@ static inline NSString *describeNSObject(id object)
         return [object description];
     }
     
-    
     NSMutableString *printString = [NSMutableString string];
     [printString appendFormat:@"(%@ *){",[object class]];
     
-    NSArray *names = propertyAndIvarNames(object);
+    NSArray *names = propertyAndIvarNames([object class]);
     for (NSString *name in names) {
         id value = [object valueForKey:name];
         NSString *string = __LcString(@"\n%@ = %@",name,describeObj(value));
@@ -112,91 +111,49 @@ static inline NSString *describeNSObject(id object)
 
 static inline NSString *describeNSValue(NSValue *value)
 {
-    //NSNumber
-    if (strcmp(value.objCType, @encode(short)) == 0) {
-        return __LcString(@"(short)%@",value);
-    }
-    if (strcmp(value.objCType, @encode(int)) == 0) {
-        return __LcString(@"(int)%@",value);
-    }
-    if (strcmp(value.objCType, @encode(long)) == 0) {
-        return __LcString(@"(long)%@",value);
-    }
-    if (strcmp(value.objCType, @encode(long long)) == 0) {
-        return __LcString(@"(long long)%@",value);
-    }
-    if (strcmp(value.objCType, @encode(float)) == 0) {
-        return __LcString(@"(float)%@",value);
-    }
-    if (strcmp(value.objCType, @encode(double)) == 0) {
-        return __LcString(@"(double)%@",value);
-    }
-    if (strcmp(value.objCType, @encode(BOOL)) == 0) {
-        return __LcString(@"(BOOL)%@",value);
-    }
-    if (strcmp(value.objCType, @encode(bool)) == 0) {
-        return __LcString(@"(bool)%@",value);
-    }
-    if (strcmp(value.objCType, @encode(char)) == 0) {
-        return __LcString(@"(char)%@",value);
-    }
-    if (strcmp(value.objCType, @encode(unsigned short)) == 0) {
-        return __LcString(@"(unsigned short)%@",value);
-    }
-    if (strcmp(value.objCType, @encode(unsigned int)) == 0) {
-        return __LcString(@"(unsigned int)%@",value);
-    }
-    if (strcmp(value.objCType, @encode(unsigned long)) == 0) {
-        return __LcString(@"(unsigned long)%@",value);
-    }
-    if (strcmp(value.objCType, @encode(unsigned long long)) == 0) {
-        return __LcString(@"(unsigned long long)%@",value);
-    }
-    if (strcmp(value.objCType, @encode(unsigned char)) == 0) {
-        return __LcString(@"(unsigned char)%@",value);
-    }
     
-    //basic type
-    if (strcmp(value.objCType, @encode(CGPoint)) == 0) {
-        NSString *string = LcStringFromCGPoint([value CGPointValue]);
-        return __LcString(@"(CGPoint)%@",string);
+#define CheckBasicType(TYPE)                                \
+    if (strcmp(value.objCType, @encode(TYPE)) == 0) {       \
+        return __LcString(@"(%s)%@",__STRING(TYPE),value);  \
     }
-    if (strcmp(value.objCType, @encode(CGSize)) == 0) {
-        NSString *string = LcStringFromCGSize([value CGSizeValue]);
-        return __LcString(@"(CGSize)%@",string);
-    }
-    if (strcmp(value.objCType, @encode(CGVector)) == 0) {
-        NSString *string = LcStringFromCGVector([value CGVectorValue]);
-        return __LcString(@"(CGVector)%@",string);
-    }
-    if (strcmp(value.objCType, @encode(CGRect)) == 0) {
-        NSString *string = LcStringFromCGRect([value CGRectValue]);
-        return __LcString(@"(CGRect)%@",string);
-    }
-    if (strcmp(value.objCType, @encode(NSRange)) == 0) {
-        return __LcString(@"(NSRange)%@",LcStringFromNSRange([value rangeValue]));
-    }
-    if (strcmp(value.objCType, @encode(CFRange)) == 0) {
-        CFRange range;
-        [value getValue:&range];
-        return __LcString(@"(CFRange)%@",LcStringFromCFRange(range));
-    }
-    if (strcmp(value.objCType, @encode(CGAffineTransform))  == 0) {
-        NSString *string = LcStringFromCGAffineTransform([value CGAffineTransformValue]);
-        return __LcString(@"(CGAffineTransform)%@",string);
-    }
-    if (strcmp(value.objCType, @encode(CATransform3D)) == 0) {
-        NSString *string = LcStringFromCATransform3D([value CATransform3DValue]);
-        return __LcString(@"(CATransform3D)%@",string);
-    }
-    if (strcmp(value.objCType, @encode(UIOffset)) == 0) {
-        NSString *string = LcStringFromUIOffset([value UIOffsetValue]);
-        return __LcString(@"(UIOffset)%@",string);
-    }
-    if (strcmp(value.objCType, @encode(UIEdgeInsets)) == 0) {
-        NSString *string = LcStringFromUIEdgeInsets([value UIEdgeInsetsValue]);
-        return __LcString(@"(UIEdgeInsets)%@",string);
-    }
+
+    CheckBasicType(short);
+    CheckBasicType(int);
+    CheckBasicType(long);
+    CheckBasicType(long long);
+    CheckBasicType(float);
+    CheckBasicType(double);
+    CheckBasicType(double);
+    CheckBasicType(BOOL);
+    CheckBasicType(bool);
+    CheckBasicType(char);
+    CheckBasicType(unsigned short);
+    CheckBasicType(unsigned int);
+    CheckBasicType(unsigned long);
+    CheckBasicType(unsigned long long);
+    CheckBasicType(unsigned char);
+    
+#undef CheckBasicType
+
+#define CheckStructType(TYPE)                                   \
+if (strcmp(value.objCType, @encode(TYPE)) == 0) {               \
+    TYPE var;                                                   \
+    [value getValue:&var];                                      \
+    return __LcString(@"(CFRange)%@",LcStringFrom##TYPE(var));  \
+}
+
+    CheckStructType(CGPoint);
+    CheckStructType(CGSize);
+    CheckStructType(CGVector);
+    CheckStructType(CGRect);
+    CheckStructType(NSRange);
+    CheckStructType(CFRange);
+    CheckStructType(CGAffineTransform);
+    CheckStructType(CATransform3D);
+    CheckStructType(UIOffset);
+    CheckStructType(UIEdgeInsets);
+    
+#undef CheckStructType
     
     return [value description];
 }
@@ -220,11 +177,11 @@ static inline NSString *tapString(NSString *string)
     return [string stringByReplacingOccurrencesOfString:@"\n" withString:@"\n\t"];
 }
 
-static inline NSArray *propertyAndIvarNames(id object)
+static inline NSArray *propertyAndIvarNames(Class class)
 {
     NSMutableArray *names = [NSMutableArray array];
     uint propertyCount;
-    objc_property_t *propertyList = class_copyPropertyList([object class], &propertyCount);
+    objc_property_t *propertyList = class_copyPropertyList(class, &propertyCount);
     for (int i = 0; i < propertyCount; i++) {
         objc_property_t property = propertyList[i];
         const char *name = property_getName(property);
@@ -233,7 +190,7 @@ static inline NSArray *propertyAndIvarNames(id object)
     
     //ivar
     uint ivarCount;
-    Ivar *ivarList = class_copyIvarList([object class], &ivarCount);
+    Ivar *ivarList = class_copyIvarList(class, &ivarCount);
     uint ivarIndex = 0;
     for (int i = 0; i < ivarCount; i++) {
         Ivar ivar = ivarList[i];
