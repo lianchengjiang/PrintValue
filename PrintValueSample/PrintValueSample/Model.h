@@ -11,9 +11,13 @@
 
 
 @interface Model : NSObject
-@property (nonatomic, strong)NSString *string;
+{
+    NSString * _string;
+    NSURL *_URL;
+}
+//@property (nonatomic, strong)NSString *string;
 @property (nonatomic, strong)NSNumber *number;
-@property (nonatomic, strong)NSURL *URL;
+//@property (nonatomic, strong)NSURL *URL;
 @property (nonatomic, strong)NSDate *date;
 @property (nonatomic, strong)NSArray *array;
 @property (nonatomic, strong)NSSet *set;
@@ -31,6 +35,6 @@
 @property (nonatomic, assign)UIOffset offset;
 @property (nonatomic, assign)UIEdgeInsets edge;
 
-
+- (void)setIvar;
 
 @end

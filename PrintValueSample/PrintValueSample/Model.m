@@ -10,4 +10,10 @@
 
 @implementation Model
 
+- (void)setIvar
+{
+    _string = @"____string";
+    _URL = [NSURL URLWithString:@"www.google.com"];
+}
+
 @end

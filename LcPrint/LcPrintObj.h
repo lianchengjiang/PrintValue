@@ -8,5 +8,4 @@
 
 #import <Foundation/Foundation.h>
 
-extern void LcPrintObj(id obj);
 extern NSString *describeObj(id object);

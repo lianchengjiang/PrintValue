@@ -12,7 +12,6 @@
 #import "LcPrint.h"
 #import "LcStringFromStruct.h"
 
-#if _LC_VALID
 
 static NSArray *basicClassList;
 static NSArray *setClassList;
@@ -24,12 +23,7 @@ static inline NSString *describeNSValue(NSValue *value);
 static inline NSString *describeSet(NSString *setClass,NSSet *list);
 static inline NSString *describeDictionary(NSDictionary *map);
 static inline NSString *describeNSObject(id object);
-
-
-void LcPrintObj(id obj)
-{
-    printf("%s\n",[describeObj(obj) UTF8String]);
-}
+static inline NSArray *propertyAndIvarNames(id object);
 
 
 NSString *describeObj(id object)
@@ -101,23 +95,17 @@ static inline NSString *describeNSObject(id object)
         return [object description];
     }
     
-    uint propertyCount;
-    objc_property_t *propertyList = class_copyPropertyList([object class], &propertyCount);
-    
-    if (propertyCount == 0) {
-        return [object description];
-    }
     
     NSMutableString *printString = [NSMutableString string];
     [printString appendFormat:@"(%@ *){",[object class]];
-    for (int i = 0; i < propertyCount; i++) {
-        objc_property_t property = propertyList[i];
-        const char *name = property_getName(property);
-        
-        id value = [object valueForKey:@(name)];
-        NSString *string = __LcString(@"\n%@ = %@",@(name),describeObj(value));
+    
+    NSArray *names = propertyAndIvarNames(object);
+    for (NSString *name in names) {
+        id value = [object valueForKey:name];
+        NSString *string = __LcString(@"\n%@ = %@",name,describeObj(value));
         [printString appendString:tapString(string)];
     }
+    
     [printString appendString:@"\n}"];
     return printString;
 }
@@ -232,15 +220,38 @@ static inline NSString *tapString(NSString *string)
     return [string stringByReplacingOccurrencesOfString:@"\n" withString:@"\n\t"];
 }
 
-#else
-
-void LcPrintObj(id obj)
+static inline NSArray *propertyAndIvarNames(id object)
 {
+    NSMutableArray *names = [NSMutableArray array];
+    uint propertyCount;
+    objc_property_t *propertyList = class_copyPropertyList([object class], &propertyCount);
+    for (int i = 0; i < propertyCount; i++) {
+        objc_property_t property = propertyList[i];
+        const char *name = property_getName(property);
+        [names addObject:@(name)];
+    }
     
-}
-NSString *describeObj(id object)
-{
-    return @"";
+    //ivar
+    uint ivarCount;
+    Ivar *ivarList = class_copyIvarList([object class], &ivarCount);
+    uint ivarIndex = 0;
+    for (int i = 0; i < ivarCount; i++) {
+        Ivar ivar = ivarList[i];
+        const char *cName = ivar_getName(ivar);
+        NSString *name = @(cName);
+        
+        //过滤Ivar和property相同的属性
+        NSString *propertyName = [name stringByReplacingOccurrencesOfString:@"_"
+                                                                 withString:@""
+                                                                    options:0
+                                                                      range:NSMakeRange(0, 1)];
+        if (![names containsObject:propertyName]) {
+            
+            //使用ivarIndex 主要是为了Ivar在Property前面，并且顺序正确
+            [names insertObject:name atIndex:ivarIndex];
+            ivarIndex++;
+        }
+    }
+    return names;
 }
 
-#endif

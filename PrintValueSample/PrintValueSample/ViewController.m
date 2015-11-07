@@ -64,9 +64,9 @@
     LcPrint(rect);
     
     Model *model = [Model new];
-    model.string = @"modelString";
+//    model.string = @"modelString";
     model.number = @(3.54);
-    model.URL = [NSURL URLWithString:@"http://www.baidu.com"];
+//    model.URL = [NSURL URLWithString:@"http://www.baidu.com"];
     model.date = [NSDate date];
     model.array = @[@"a",@"b",@"c"];
     model.dictionary = @{@"key":@"valur"};
@@ -81,6 +81,7 @@
     model.offset = offset;
     model.edge = insets;
     model.rect = rect;
+    [model setIvar];
     
     LcPrint(model);
 }
