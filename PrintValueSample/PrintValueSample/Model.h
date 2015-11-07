@@ -8,24 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-
-
-@interface Model : NSObject
+@interface FatherModel : NSObject
 {
-    NSString * _string;
-    NSURL *_URL;
+    CGSize size;
 }
-//@property (nonatomic, strong)NSString *string;
-@property (nonatomic, strong)NSNumber *number;
-//@property (nonatomic, strong)NSURL *URL;
-@property (nonatomic, strong)NSDate *date;
-@property (nonatomic, strong)NSArray *array;
-@property (nonatomic, strong)NSSet *set;
-@property (nonatomic, strong)NSDictionary *dictionary;
-
-
-@property (nonatomic, assign)CGPoint point;
-@property (nonatomic, assign)CGSize size;
+//@property (nonatomic, assign)CGSize size;
 @property (nonatomic, assign)CGVector vector;
 @property (nonatomic, assign)CGRect rect;
 @property (nonatomic, assign)NSRange nsRange;
@@ -35,6 +22,35 @@
 @property (nonatomic, assign)UIOffset offset;
 @property (nonatomic, assign)UIEdgeInsets edge;
 
+
+@end
+
+
+
+@interface Model : FatherModel
+{
+    NSURL *_URL;
+}
+//@property (nonatomic, strong)NSString *string;
+@property (nonatomic, strong)NSNumber *number;
+//@property (nonatomic, strong)NSURL *URL;
+@property (nonatomic, strong)NSSet *set;
+@property (nonatomic, strong)NSDictionary *dictionary;
+
+
+
+
+@end
+
+@interface SonModel : Model
+{
+    NSString * _string;
+}
+@property (nonatomic, strong)NSDate *date;
+@property (nonatomic, assign)CGPoint point;
+@property (nonatomic, strong)NSArray *array;
+
 - (void)setIvar;
 
 @end
+

@@ -11,6 +11,7 @@
 #import "LcStringFromStruct.h"
 #import "LcPrint.h"
 
+#define __LcString(fmt, ...)  [NSString stringWithFormat:fmt, ##__VA_ARGS__]
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wvarargs"
@@ -94,3 +95,5 @@ static inline NSString *__describeVar(const char *type, va_list variable_param_l
 #undef checkStructType
 
 #pragma clang diagnostic pop
+
+#undef __LcString

@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#define __LcString(fmt, ...)  [NSString stringWithFormat:fmt, ##__VA_ARGS__]
-
 extern NSString *LcStringFromCATransform3D(CATransform3D transform);
 extern NSString *LcStringFromCGPoint(CGPoint var);
 extern NSString *LcStringFromCGSize(CGSize var);

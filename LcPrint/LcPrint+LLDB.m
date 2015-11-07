@@ -7,14 +7,25 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "LcPrint+LLDB.h"
 #import "LcPrintObj.h"
+#import "LcPrintAdvance.h"
 
 #if DEBUG
 
 void o(id obj)
 {
     printf("%s\n",[describeObj(obj) UTF8String]);
+}
+
+void v(id view)
+{
+    if (![view isKindOfClass:[UIView class]]) {
+        printf("this is not a view, please use 'p o(x)' instead\n");
+    }
+    
+    printf("%s\n",[describeViews(view) UTF8String]);
 }
 
 #endif

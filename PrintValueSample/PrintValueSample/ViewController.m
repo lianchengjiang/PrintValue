@@ -20,7 +20,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
    
-    
+    LcPrintViews(self.view);
     
     [self test];
 }
@@ -28,18 +28,18 @@
 
 - (void)test
 {
-    LcPrint((int)1);
-    LcPrint((short)1);
-    LcPrint((long)1);
-    LcPrint((unsigned int)1);
-    LcPrint((unsigned short)1);
-    LcPrint((unsigned long)1);
-    LcPrint((float)1.72);
-    LcPrint((double)1.432);
-    LcPrint(YES);
-    LcPrint((char)'c');
-    LcPrint((unsigned char)'a');
-    LcPrint([self class]);
+//    LcPrint((int)1);
+//    LcPrint((short)1);
+//    LcPrint((long)1);
+//    LcPrint((unsigned int)1);
+//    LcPrint((unsigned short)1);
+//    LcPrint((unsigned long)1);
+//    LcPrint((float)1.72);
+//    LcPrint((double)1.432);
+//    LcPrint(YES);
+//    LcPrint((char)'c');
+//    LcPrint((unsigned char)'a');
+//    LcPrint([self class]);
     
     CGPoint point = CGPointMake(3.8, 4.1);
     CGSize size = CGSizeMake(8.3, 9.9);
@@ -52,18 +52,18 @@
     UIEdgeInsets insets = UIEdgeInsetsMake(9.3, 3.2, 2.1, 4.5);
     CGRect rect = CGRectMake(0, 0.4, 8.3, 8.1);
     
-    LcPrint(point);
-    LcPrint(size);
-    LcPrint(vector);
-    LcPrint(range);
-    LcPrint(cfRange);
-    LcPrint(transform);
-    LcPrint(transform3D);
-    LcPrint(offset);
-    LcPrint(insets);
-    LcPrint(rect);
+//    LcPrint(point);
+//    LcPrint(size);
+//    LcPrint(vector);
+//    LcPrint(range);
+//    LcPrint(cfRange);
+//    LcPrint(transform);
+//    LcPrint(transform3D);
+//    LcPrint(offset);
+//    LcPrint(insets);
+//    LcPrint(rect);
     
-    Model *model = [Model new];
+    SonModel *model = [SonModel new];
 //    model.string = @"modelString";
     model.number = @(3.54);
 //    model.URL = [NSURL URLWithString:@"http://www.baidu.com"];
@@ -72,7 +72,7 @@
     model.dictionary = @{@"key":@"valur"};
     model.set = [NSSet setWithObjects:@"set1",@"set2", nil];
     model.point = point;
-    model.size = size;
+//    model.size = size;
     model.vector = vector;
     model.nsRange = range;
     model.cfRange = cfRange;

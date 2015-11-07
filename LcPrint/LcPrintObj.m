@@ -12,21 +12,30 @@
 #import "LcPrint.h"
 #import "LcStringFromStruct.h"
 
+#define __LcString(fmt, ...)  [NSString stringWithFormat:fmt, ##__VA_ARGS__]
 
-static NSArray *basicClassList;
+
+static NSArray *basicClusterClassList;
+static NSArray *basicNormalClassList;
 static NSArray *setClassList;
 static inline void initClassList();
 
+static inline NSString *__describeObj(id object, Class class);
 static inline NSString *tapString(NSString *string);
 static inline NSString *describeBasicClass(NSString *classString,id object);
 static inline NSString *describeNSValue(NSValue *value);
 static inline NSString *describeSet(NSString *setClass,NSSet *list);
 static inline NSString *describeDictionary(NSDictionary *map);
-static inline NSString *describeNSObject(id object);
+static inline NSString *describeNSObject(id object, Class class);
 static inline NSArray *propertyAndIvarNames(Class class);
 
 
 NSString *describeObj(id object)
+{
+    return __describeObj(object, [object class]);
+}
+
+static inline NSString *__describeObj(id object, Class class)
 {
     initClassList();
     
@@ -34,29 +43,38 @@ NSString *describeObj(id object)
     {
         return @"nil";
     }
-    
-    for (NSString *classString in basicClassList)
+    //基础的类族类型:类族类型都需要使用isKindOfClass:判断
+    for (NSString *classString in basicClusterClassList)
     {
         if ([object isKindOfClass:NSClassFromString(classString)]){
             return describeBasicClass(classString,object);
         }
     }
     
+    //基础的普通类型
+    if ([basicNormalClassList containsObject:NSStringFromClass(class)]) {
+        return describeBasicClass(NSStringFromClass(class), object);
+    }
+    
+    //NSValue类型(类族)
     if ([object isKindOfClass:[NSValue class]]) {
         return describeNSValue(object);
     }
     
+    //容器类型(类族)
     for (NSString *setClass in setClassList) {
         if ([object isKindOfClass:NSClassFromString(setClass)]) {
             return describeSet(setClass, object);
         }
     }
     
+    //字典类型(类族)
     if ([object isKindOfClass:[NSDictionary class]]) {
         return describeDictionary(object);
     }
     
-    return describeNSObject(object);
+    //自定义类型
+    return describeNSObject(object, class);
 }
 
 #pragma mark - handle
@@ -89,19 +107,27 @@ static inline NSString *describeDictionary(NSDictionary *map)
     return printString;
 }
 
-static inline NSString *describeNSObject(id object)
+static inline NSString *describeNSObject(id object, Class class)
 {
-    if ([object isMemberOfClass:[NSObject class]]) {
+    if ([NSObject isSubclassOfClass:class]) {
         return [object description];
     }
     
     NSMutableString *printString = [NSMutableString string];
-    [printString appendFormat:@"(%@ *){",[object class]];
+    [printString appendFormat:@"(%@ *){",class];
     
-    NSArray *names = propertyAndIvarNames([object class]);
+    NSArray *names = propertyAndIvarNames(class);
     for (NSString *name in names) {
         id value = [object valueForKey:name];
         NSString *string = __LcString(@"\n%@ = %@",name,describeObj(value));
+        [printString appendString:tapString(string)];
+    }
+    
+    // subClass
+    Class superClass = class_getSuperclass(class);
+    if (![NSObject isSubclassOfClass:superClass]) {
+        NSString *string = __LcString(@"\n❣️superClass : %@",
+                                      __describeObj(object,superClass));
         [printString appendString:tapString(string)];
     }
     
@@ -165,7 +191,8 @@ static inline void initClassList()
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        basicClassList = @[@"NSString",@"NSURL",@"NSDate",@"UIView",@"UIViewController"];
+        basicClusterClassList = @[@"NSString",@"NSDate",];
+        basicNormalClassList = @[@"UIView",@"UIViewController",@"NSURL",];
         setClassList = @[@"NSArray",@"NSSet",@"NSOrderedSet",@"NSPointerArray"];
     });
     
@@ -208,4 +235,6 @@ static inline NSArray *propertyAndIvarNames(Class class)
     }
     return names;
 }
+
+#undef __LcString
 
