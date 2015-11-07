@@ -7,7 +7,7 @@
 //
 
 #import "LcStringFromStruct.h"
-#define __LcString(fmt, ...)  [NSString stringWithFormat:fmt, ##__VA_ARGS__]
+#import "LcPrintMacro.h"
 
 NSString *LcStringFromCATransform3D(CATransform3D transform)
 {
@@ -71,4 +71,3 @@ NSString *LcStringFromClass(Class class)
     return NSStringFromClass(class);
 }
 
-#undef __LcString

@@ -11,8 +11,7 @@
 #import <objc/runtime.h>
 #import "LcPrint.h"
 #import "LcStringFromStruct.h"
-
-#define __LcString(fmt, ...)  [NSString stringWithFormat:fmt, ##__VA_ARGS__]
+#import "LcPrintMacro.h"
 
 
 static NSArray *basicClusterClassList;
@@ -248,5 +247,5 @@ static inline NSString *superClassStar(NSUInteger starCount)
     return star;
 }
 
-#undef __LcString
+
 

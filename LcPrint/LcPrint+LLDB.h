@@ -6,7 +6,11 @@
 //  Copyright © 2015年 jiangliancheng. All rights reserved.
 //
 
-#if DEBUG
+#import "LcPrintMacro.h"
+
+#if _LC_VALID
+
 extern void o(id obj);
+extern void v(id view);
 
 #endif

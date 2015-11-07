@@ -10,9 +10,10 @@
 #import <UIKit/UIKit.h>
 #import "LcPrint+LLDB.h"
 #import "LcPrintObj.h"
-#import "LcPrintAdvance.h"
+#import "LcPrintViews.h"
+#import "LcPrintMacro.h"
 
-#if DEBUG
+#if _LC_VALID
 
 void o(id obj)
 {
@@ -25,7 +26,7 @@ void v(id view)
         printf("this is not a view, please use 'p o(x)' instead\n");
     }
     
-    printf("❤️%s\n",[describeViews(view) UTF8String]);
+    printf("%s\n",[describeViews(view) UTF8String]);
 }
 
 #endif
