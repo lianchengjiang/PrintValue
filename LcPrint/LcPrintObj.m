@@ -125,6 +125,12 @@ static inline NSString *describeNSObject(id object, Class class, BOOL circle)
     
     //打印本类的属性
     NSArray *names = __lc_property_ivar_name_list(class);
+    
+    //如果本类没有属性，并且不打印父类，则直接返回description
+    if (names.count == 0 && !circle) {
+        return [object description];
+    }
+    
     for (NSString *name in names) {
         id value;
         @try {
