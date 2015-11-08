@@ -13,5 +13,7 @@
 extern void o(id obj);
 extern void oo(id obj);
 extern void v(id view);
+extern void i(id obj);
+extern void ii(id obj);
 
 #endif
