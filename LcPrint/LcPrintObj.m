@@ -119,7 +119,13 @@ static inline NSString *describeNSObject(id object, Class class, NSUInteger leve
     
     NSArray *names = propertyAndIvarNames(class);
     for (NSString *name in names) {
-        id value = [object valueForKey:name];
+        id value;
+        @try {
+             value = [object valueForKey:name];
+        }
+        @catch (NSException *exception) {
+            continue;
+        }
         NSString *string = __LcString(@"\n%@ = %@",name,describeObj(value));
         [printString appendString:tapString(string)];
     }
