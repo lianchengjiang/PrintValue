@@ -14,7 +14,7 @@
 static inline NSString *propertyNameFromIvarName(NSString *name);
 static inline id __lc_custom_value_for_key(id object, NSString *key);
 static inline const char *__lc_useful_type_from_ivar_type(const char *ivarType);
-
+NSString *__lc_unknown_type = @"unknown type";
 
 NSArray *__lc_ivar_name_list(Class class)
 {
@@ -100,6 +100,14 @@ id __lc_value_for_key(id object, NSString *key)
 #pragma mark - inline
 
 //type 类型参见https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtTypeEncodings.html
+
+#define GET_VALUE_FROM(TYPE)    \
+if (strcmp(type, @encode(TYPE)) == 0) { \
+    value = @(*(TYPE*)var);  \
+    goto FINISH;    \
+}
+
+
 static inline id __lc_value_for_sel(id object, SEL sel)
 {
     NSMethodSignature *sig = [object methodSignatureForSelector:sel];
@@ -120,7 +128,7 @@ static inline id __lc_value_for_sel(id object, SEL sel)
         type[0] == '('||
         type[0] == '[')
     {
-        return @"unknown type";
+        return __lc_unknown_type;
     }
     
     
@@ -135,11 +143,29 @@ static inline id __lc_value_for_sel(id object, SEL sel)
     else
     {
         NSUInteger length = [sig methodReturnLength];
-        void *buffer = (void *)malloc(length);
-        [invocation getReturnValue:buffer];
-        value = [NSValue value:buffer withObjCType:type];
-        free(buffer);
+        void *var = (void *)malloc(length);
+        [invocation getReturnValue:var];
+        
+        GET_VALUE_FROM(char);
+        GET_VALUE_FROM(int);
+        GET_VALUE_FROM(short);
+        GET_VALUE_FROM(long);
+        GET_VALUE_FROM(long long);
+        GET_VALUE_FROM(unsigned char);
+        GET_VALUE_FROM(uint);
+        GET_VALUE_FROM(ushort);
+        GET_VALUE_FROM(unsigned long);
+        GET_VALUE_FROM(unsigned long long);
+        GET_VALUE_FROM(float);
+        GET_VALUE_FROM(double);
+        GET_VALUE_FROM(BOOL);
+        GET_VALUE_FROM(bool);
+        
+        value = [NSValue value:var withObjCType:type];
+        free(var);
     }
+    
+FINISH:
     return value;
 }
 
@@ -148,31 +174,55 @@ static inline id __lc_value_for_ivar(id object, Ivar ivar)
     const char *ivarType = ivar_getTypeEncoding(ivar);
     const char *type = __lc_useful_type_from_ivar_type(ivarType);
     
+    //void
     if (strcmp(type, @encode(void)) == 0) {
         return nil;
     }
     
+    //unknown type
     if (type[0] == ':'||
         type[0] == '?'||
         type[0] == '^'||
         type[0] == 'b'||
         type[0] == '('||
+        type[0] == '*'||
         type[0] == '[')
     {
         return @"unknown type";
     }
 
+    //id
     if (strcmp(type, @encode(id)) == 0) {
         return object_getIvar(object, ivar);
     }
-    else
-    {
-        ptrdiff_t offset = ivar_getOffset(ivar);
-        void *valuePoint = (__bridge void*)object + offset;
-        NSValue *value = [NSValue value:valuePoint withObjCType:type];
-        return value;
-    }
+    
+    //NSValue or NSNumber
+    id value;
+    ptrdiff_t offset = ivar_getOffset(ivar);
+    void *var = (__bridge void*)object + offset;
+    
+    GET_VALUE_FROM(char);
+    GET_VALUE_FROM(int);
+    GET_VALUE_FROM(short);
+    GET_VALUE_FROM(long);
+    GET_VALUE_FROM(long long);
+    GET_VALUE_FROM(unsigned char);
+    GET_VALUE_FROM(uint);
+    GET_VALUE_FROM(ushort);
+    GET_VALUE_FROM(unsigned long);
+    GET_VALUE_FROM(unsigned long long);
+    GET_VALUE_FROM(float);
+    GET_VALUE_FROM(double);
+    GET_VALUE_FROM(BOOL);
+    GET_VALUE_FROM(bool);
+    
+    value = [NSValue value:var withObjCType:type];
+FINISH:
+    
+    return value;
 }
+
+#undef GET_VALUE_FROM
 
 static inline id __lc_custom_value_for_key(id object, NSString *key)
 {
