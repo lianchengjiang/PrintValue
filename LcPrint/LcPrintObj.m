@@ -79,6 +79,9 @@ static inline NSString *__describeObj(id object, Class class, BOOL circle)
 
 static inline NSString *describeBasicClass(NSString *classString,id object)
 {
+    if ([object isEqual:__lc_unknown_type]) {
+        return object;
+    }
     return __LcString(@"(%@ *)%@",classString,object);
 }
 

@@ -15,3 +15,4 @@ extern NSArray *__lc_method_name_list(Class class);
 extern NSString *__lc_tap_string(NSString *string);
 
 extern id __lc_value_for_key(id object, NSString *key);
+    extern NSString *__lc_unknown_type;
