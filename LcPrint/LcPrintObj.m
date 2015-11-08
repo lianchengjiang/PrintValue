@@ -12,6 +12,7 @@
 #import "LcPrint.h"
 #import "LcStringFromStruct.h"
 #import "LcPrintMacro.h"
+#import "LcPrintUtility.h"
 
 
 static NSArray *basicClusterClassList;
@@ -20,13 +21,11 @@ static NSArray *setClassList;
 static inline void initClassList();
 
 static inline NSString *__describeObj(id object, Class class, BOOL circle);
-static inline NSString *tapString(NSString *string);
 static inline NSString *describeBasicClass(NSString *classString,id object);
 static inline NSString *describeNSValue(NSValue *value);
 static inline NSString *describeSet(NSString *setClass,NSSet *list, BOOL circle);
 static inline NSString *describeDictionary(NSDictionary *map, BOOL circle);
 static inline NSString *describeNSObject(id object, Class class,  BOOL circle);
-static inline NSArray *propertyAndIvarNames(Class class);
 
 
 NSString *describeObj(id object, BOOL circlePrintSuper)
@@ -89,7 +88,7 @@ static inline NSString *describeSet(NSString *setClass,NSSet *list, BOOL circle)
     [printString appendFormat:@"(%@ *)[",setClass];
     for (id value in list) {
         NSString *string = __LcString(@"\n%@",describeObj(value, circle));
-        [printString appendString:tapString(string)];
+        [printString appendString:__lc_tap_string(string)];
     }    [printString appendString:@"\n]"];
     return printString;
 }
@@ -100,7 +99,7 @@ static inline NSString *describeDictionary(NSDictionary *map, BOOL circle)
     [printString appendString:@"{"];
     for (id key in map.allKeys) {
         NSString *string = __LcString(@"\n%@:%@",key,describeObj(map[key], circle));
-        [printString appendString:tapString(string)];
+        [printString appendString:__lc_tap_string(string)];
     }
     [printString appendString:@"\n}"];
     return printString;
@@ -120,12 +119,12 @@ static inline NSString *describeNSObject(id object, Class class, BOOL circle)
         Class superClass = class_getSuperclass(class);
         if (![NSObject isSubclassOfClass:superClass]) {
             NSString *string = __LcString(@"\n%@",(__describeObj(object,superClass, circle)));
-            [printString appendString:tapString(string)];
+            [printString appendString:__lc_tap_string(string)];
         }
     }
     
     //打印本类的属性
-    NSArray *names = propertyAndIvarNames(class);
+    NSArray *names = __lc_property_ivar_name_list(class);
     for (NSString *name in names) {
         id value;
         @try {
@@ -135,10 +134,10 @@ static inline NSString *describeNSObject(id object, Class class, BOOL circle)
             continue;
         }
         NSString *string = __LcString(@"\n%@ = %@",name,describeObj(value, circle));
-        [printString appendString:tapString(string)];
+        [printString appendString:__lc_tap_string(string)];
     }
     
-    [printString appendString:@"\n}"];
+    [printString appendFormat:@"\n}(%@ *)",class];
 
     
     return printString;
@@ -208,42 +207,6 @@ static inline void initClassList()
     return;
 }
 
-static inline NSString *tapString(NSString *string)
-{
-    return [string stringByReplacingOccurrencesOfString:@"\n" withString:@"\n\t"];
-}
-
-static inline NSArray *propertyAndIvarNames(Class class)
-{
-    NSMutableArray *names = [NSMutableArray array];
-    uint propertyCount;
-    objc_property_t *propertyList = class_copyPropertyList(class, &propertyCount);
-    for (int i = 0; i < propertyCount; i++) {
-        objc_property_t property = propertyList[i];
-        const char *name = property_getName(property);
-        [names addObject:@(name)];
-    }
-    
-    //ivar
-    uint ivarCount;
-    Ivar *ivarList = class_copyIvarList(class, &ivarCount);
-    uint ivarIndex = 0;
-    for (int i = 0; i < ivarCount; i++) {
-        Ivar ivar = ivarList[i];
-        const char *cName = ivar_getName(ivar);
-        NSString *name = @(cName);
-        
-        //过滤Ivar和property相同的属性
-        NSString *propertyName = [name stringByReplacingOccurrencesOfString:@"_" withString:@"" options:0 range:NSMakeRange(0, 1)];
-        if ([names containsObject:propertyName]) {
-            continue;
-        }
-        //使用ivarIndex 主要是为了Ivar在Property前面，并且顺序正确
-        [names insertObject:name atIndex:ivarIndex];
-        ivarIndex++;
-    }
-    return names;
-}
 
 
 
