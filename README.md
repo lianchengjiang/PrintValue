@@ -198,7 +198,7 @@ this method will circle print super class of object
 
 
 ###Code
-###use `LcPrint()` print any var in code
+####use `LcPrint()` print any var in code
    
 print basic type:
   
@@ -364,6 +364,6 @@ print object :
 			key:(NSString *)valur
 		}
 	}(Model *)
-###use `p LcPrintViews()` circle print view's subviews
+####use `p LcPrintViews()` circle print view's subviews
 it the same of `p v()` in lldb.
 
