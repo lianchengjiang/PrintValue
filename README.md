@@ -20,21 +20,21 @@
 introduce print any var function from [DeveloperLx/LxDBAnything](https://github.com/DeveloperLx/LxDBAnything)。you can use `LcPrint()` instead of `LcPrintObj()` to print any var in code.  but if you want to print object in LLDB,  you must use `LcPrintObj()`, because `LcPrint()` is macro, which is not supported in LLDB console. and if you want to print basic var(not a NSObject instance) in LLDB, using `p var` direct print it.
 
 ##Installation
-Objective-C:
+###Objective-C:
 
 1. Download the PrintValue repository as a zip file or clone it
 2. copy `LcPrint` sub-folder into your Xcode project
-3. import 'LcPrint+LLDB.h' to your .pch file to make it auto completion in lldb
+3. import `LcPrint+LLDB.h` to your .pch file to make it auto completion in lldb
 
 if your project don't have .pch file. don't worry. it's still work without auto-completion
 
-Swift:
+###Swift:
 
 1. Download the PrintValue repository as a zip file or clone it
 2. copy `LcPrint` sub-folder into your Xcode project
-3. import 'LcPrint+LLDB.h' to your bridge-header.h file 
+3. import `LcPrint+LLDB.h` to your bridge-header.h file 
 
-if you want't to use method in `LcPrint.h`, also import `LcPrint.h` to your bridge-header.h file 
+if you want to use method in `LcPrint.h`, also import `LcPrint.h` to your bridge-header.h file 
 
 ##Usage
 ###LLDB
