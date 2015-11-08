@@ -17,6 +17,8 @@
 		755064851BE9F5F80045DAEB /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 755064841BE9F5F80045DAEB /* Model.m */; };
 		757544681BEC9854002ABDF8 /* LcPrintObj.m in Sources */ = {isa = PBXBuildFile; fileRef = 757544671BEC9854002ABDF8 /* LcPrintObj.m */; };
 		7575446A1BEC98C8002ABDF8 /* LcPrintVar.m in Sources */ = {isa = PBXBuildFile; fileRef = 757544691BEC98C8002ABDF8 /* LcPrintVar.m */; };
+		757D80571BEF131300F35430 /* LcPrintInner.m in Sources */ = {isa = PBXBuildFile; fileRef = 757D80561BEF131300F35430 /* LcPrintInner.m */; };
+		757D805A1BEF1BA300F35430 /* LcPrintUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 757D80591BEF1BA300F35430 /* LcPrintUtility.m */; };
 		7599B5DC1BEDCFBC00FFA794 /* LcPrintViews.m in Sources */ = {isa = PBXBuildFile; fileRef = 7599B5DB1BEDCFBC00FFA794 /* LcPrintViews.m */; };
 		75DCD96E1BED9F370065D1CD /* LcPrint+LLDB.m in Sources */ = {isa = PBXBuildFile; fileRef = 75DCD96D1BED9F370065D1CD /* LcPrint+LLDB.m */; };
 /* End PBXBuildFile section */
@@ -41,6 +43,10 @@
 		755064841BE9F5F80045DAEB /* Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model.m; sourceTree = "<group>"; };
 		757544671BEC9854002ABDF8 /* LcPrintObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LcPrintObj.m; sourceTree = "<group>"; };
 		757544691BEC98C8002ABDF8 /* LcPrintVar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LcPrintVar.m; sourceTree = "<group>"; };
+		757D80551BEF131300F35430 /* LcPrintInner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LcPrintInner.h; sourceTree = "<group>"; };
+		757D80561BEF131300F35430 /* LcPrintInner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LcPrintInner.m; sourceTree = "<group>"; };
+		757D80581BEF1BA300F35430 /* LcPrintUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LcPrintUtility.h; sourceTree = "<group>"; };
+		757D80591BEF1BA300F35430 /* LcPrintUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LcPrintUtility.m; sourceTree = "<group>"; };
 		7599B5DB1BEDCFBC00FFA794 /* LcPrintViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LcPrintViews.m; sourceTree = "<group>"; };
 		7599B5DD1BEDCFCD00FFA794 /* LcPrintViews.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LcPrintViews.h; sourceTree = "<group>"; };
 		7599B5E21BEE036C00FFA794 /* LcPrintMacro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LcPrintMacro.h; sourceTree = "<group>"; };
@@ -68,6 +74,10 @@
 				7599B5E21BEE036C00FFA794 /* LcPrintMacro.h */,
 				7599B5DD1BEDCFCD00FFA794 /* LcPrintViews.h */,
 				7599B5DB1BEDCFBC00FFA794 /* LcPrintViews.m */,
+				757D80551BEF131300F35430 /* LcPrintInner.h */,
+				757D80561BEF131300F35430 /* LcPrintInner.m */,
+				757D80581BEF1BA300F35430 /* LcPrintUtility.h */,
+				757D80591BEF1BA300F35430 /* LcPrintUtility.m */,
 				750FD9701BEC875F00BCFC4F /* LcPrintObj.h */,
 				757544671BEC9854002ABDF8 /* LcPrintObj.m */,
 				750FD9711BEC875F00BCFC4F /* LcPrintVar.h */,
@@ -199,7 +209,9 @@
 				7550646A1BE998B20045DAEB /* main.m in Sources */,
 				750FD9741BEC875F00BCFC4F /* LcStringFromStruct.m in Sources */,
 				75DCD96E1BED9F370065D1CD /* LcPrint+LLDB.m in Sources */,
+				757D80571BEF131300F35430 /* LcPrintInner.m in Sources */,
 				7599B5DC1BEDCFBC00FFA794 /* LcPrintViews.m in Sources */,
+				757D805A1BEF1BA300F35430 /* LcPrintUtility.m in Sources */,
 				755064851BE9F5F80045DAEB /* Model.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -12,6 +12,7 @@
 #import "LcPrintObj.h"
 #import "LcPrintViews.h"
 #import "LcPrintMacro.h"
+#import "LcPrintInner.h"
 
 #if _LC_VALID
 
@@ -32,6 +33,16 @@ void v(id view)
     }
     
     printf("%s\n",[describeViews(view) UTF8String]);
+}
+
+void i(id obj)
+{
+    printf("%s\n",[describInner(obj, NO) UTF8String]);
+}
+
+void ii(id obj)
+{
+    printf("%s\n",[describInner(obj, YES) UTF8String]);
 }
 
 #endif
