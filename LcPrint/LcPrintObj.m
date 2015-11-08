@@ -132,13 +132,7 @@ static inline NSString *describeNSObject(id object, Class class, BOOL circle)
     }
     
     for (NSString *name in names) {
-        id value;
-        @try {
-             value = [object valueForKey:name];
-        }
-        @catch (NSException *exception) {
-            continue;
-        }
+        id value = __lc_value_for_key(object, name);
         NSString *string = __LcString(@"\n%@ = %@",name,describeObj(value, circle));
         [printString appendString:__lc_tap_string(string)];
     }
