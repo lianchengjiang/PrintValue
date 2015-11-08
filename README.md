@@ -5,8 +5,6 @@
 
 ----
 
-
-
 ##version 2.0
 1. simplify API, make it use more convenient
 	1. `p o()` instead of `p LcPrintObj()`
