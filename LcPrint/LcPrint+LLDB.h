@@ -10,10 +10,11 @@
 
 #if _LC_VALID
 
-extern void o(id obj);
-extern void oo(id obj);
-extern void v(id view);
-extern void i(id obj);
-extern void ii(id obj);
+
+extern void o(id obj);  //print object's value. you can use it in lldb: `p o()`
+extern void oo(id obj); //circle print super class's value. use it in lldb: `p oo()`
+extern void v(id view); //circle print view's subview. use it in lldb: `p v()`
+extern void i(id obj);  //print object's inner. use it in lldb: `p i()`
+extern void ii(id obj); //circle print super class of object's inner. use it in lldb: `p ii()`
 
 #endif
