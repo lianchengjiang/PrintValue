@@ -20,7 +20,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
    
-    LcPrintViews(self.view);
+//    LcPrintViews(self.view);
+    
+    int a= 10;
+    const char *type = @encode(typeof(a));
+    NSValue *vale = [NSValue value:&a withObjCType:type];
     
     [self test];
 }
@@ -62,13 +66,12 @@
 //    LcPrint(offset);
 //    LcPrint(insets);
 //    LcPrint(rect);
-    
+    LcPrint(self.view);
     SonModel *model = [SonModel new];
 //    model.string = @"modelString";
     model.number = @(3.54);
 //    model.URL = [NSURL URLWithString:@"http://www.baidu.com"];
     model.date = [NSDate date];
-    model.array = @[@"a",@"b",@"c"];
     model.dictionary = @{@"key":@"valur"};
     model.set = [NSSet setWithObjects:@"set1",@"set2", nil];
     model.point = point;
@@ -81,9 +84,16 @@
     model.offset = offset;
     model.edge = insets;
     model.rect = rect;
+    model.class = [NSString class];
+    model.sel = @selector(test);
+    char a = 'c';
+//    model.uion.a = 1;
     [model setIvar];
-    
+    [model valueForKey:@"charPoint"];
+    Model *father = [Model new];
+    model.array = @[father,father];
     LcPrint(model);
+//    LcPrint(model);
 }
 
 - (void)didReceiveMemoryWarning {

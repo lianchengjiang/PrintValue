@@ -8,6 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+
+union UNION {
+    int a;
+    float b;
+};
+
+typedef union UNION  UNION;
+
 @interface FatherModel : NSObject
 {
     CGSize size;
@@ -49,7 +57,9 @@
 @property (nonatomic, strong)NSDate *date;
 @property (nonatomic, assign)CGPoint point;
 @property (nonatomic, strong)NSArray *array;
-
+@property (nonatomic, strong)Class class;
+@property (nonatomic, assign)SEL sel;
+@property (nonatomic, assign)UNION uion;
 - (void)setIvar;
 
 @end
