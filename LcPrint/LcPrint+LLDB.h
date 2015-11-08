@@ -11,6 +11,7 @@
 #if _LC_VALID
 
 extern void o(id obj);
+extern void oo(id obj);
 extern void v(id view);
 
 #endif

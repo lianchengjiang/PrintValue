@@ -19,24 +19,22 @@ static NSArray *basicNormalClassList;
 static NSArray *setClassList;
 static inline void initClassList();
 
-static inline NSString *__describeObj(id object, Class class, NSUInteger level);
+static inline NSString *__describeObj(id object, Class class, BOOL circle);
 static inline NSString *tapString(NSString *string);
 static inline NSString *describeBasicClass(NSString *classString,id object);
 static inline NSString *describeNSValue(NSValue *value);
-static inline NSString *describeSet(NSString *setClass,NSSet *list);
-static inline NSString *describeDictionary(NSDictionary *map);
-static inline NSString *describeNSObject(id object, Class class, NSUInteger level);
+static inline NSString *describeSet(NSString *setClass,NSSet *list, BOOL circle);
+static inline NSString *describeDictionary(NSDictionary *map, BOOL circle);
+static inline NSString *describeNSObject(id object, Class class,  BOOL circle);
 static inline NSArray *propertyAndIvarNames(Class class);
 
-static inline NSString *superClassStar(NSUInteger starCount);
 
-
-NSString *describeObj(id object)
+NSString *describeObj(id object, BOOL circlePrintSuper)
 {
-    return __describeObj(object, [object class], 0);
+    return __describeObj(object, [object class], circlePrintSuper);
 }
 
-static inline NSString *__describeObj(id object, Class class, NSUInteger level)
+static inline NSString *__describeObj(id object, Class class, BOOL circle)
 {
     initClassList();
     
@@ -65,17 +63,17 @@ static inline NSString *__describeObj(id object, Class class, NSUInteger level)
     //容器类型(类族)
     for (NSString *setClass in setClassList) {
         if ([object isKindOfClass:NSClassFromString(setClass)]) {
-            return describeSet(setClass, object);
+            return describeSet(setClass, object, circle);
         }
     }
     
     //字典类型(类族)
     if ([object isKindOfClass:[NSDictionary class]]) {
-        return describeDictionary(object);
+        return describeDictionary(object, circle);
     }
     
     //自定义类型
-    return describeNSObject(object, class, level);
+    return describeNSObject(object, class, circle);
 }
 
 #pragma mark - handle
@@ -85,30 +83,30 @@ static inline NSString *describeBasicClass(NSString *classString,id object)
     return __LcString(@"(%@ *)%@",classString,object);
 }
 
-static inline NSString *describeSet(NSString *setClass,NSSet *list)
+static inline NSString *describeSet(NSString *setClass,NSSet *list, BOOL circle)
 {
     NSMutableString *printString = [NSMutableString string];
     [printString appendFormat:@"(%@ *)[",setClass];
     for (id value in list) {
-        NSString *string = __LcString(@"\n%@",describeObj(value));
+        NSString *string = __LcString(@"\n%@",describeObj(value, circle));
         [printString appendString:tapString(string)];
     }    [printString appendString:@"\n]"];
     return printString;
 }
 
-static inline NSString *describeDictionary(NSDictionary *map)
+static inline NSString *describeDictionary(NSDictionary *map, BOOL circle)
 {
     NSMutableString *printString = [NSMutableString string];
     [printString appendString:@"{"];
     for (id key in map.allKeys) {
-        NSString *string = __LcString(@"\n%@:%@",key,describeObj(map[key]));
+        NSString *string = __LcString(@"\n%@:%@",key,describeObj(map[key], circle));
         [printString appendString:tapString(string)];
     }
     [printString appendString:@"\n}"];
     return printString;
 }
 
-static inline NSString *describeNSObject(id object, Class class, NSUInteger level)
+static inline NSString *describeNSObject(id object, Class class, BOOL circle)
 {
     if ([NSObject isSubclassOfClass:class]) {
         return [object description];
@@ -117,6 +115,16 @@ static inline NSString *describeNSObject(id object, Class class, NSUInteger leve
     NSMutableString *printString = [NSMutableString string];
     [printString appendFormat:@"(%@ *){",class];
     
+    //循环打印父类
+    if (circle) {
+        Class superClass = class_getSuperclass(class);
+        if (![NSObject isSubclassOfClass:superClass]) {
+            NSString *string = __LcString(@"\n%@",(__describeObj(object,superClass, circle)));
+            [printString appendString:tapString(string)];
+        }
+    }
+    
+    //打印本类的属性
     NSArray *names = propertyAndIvarNames(class);
     for (NSString *name in names) {
         id value;
@@ -126,19 +134,12 @@ static inline NSString *describeNSObject(id object, Class class, NSUInteger leve
         @catch (NSException *exception) {
             continue;
         }
-        NSString *string = __LcString(@"\n%@ = %@",name,describeObj(value));
+        NSString *string = __LcString(@"\n%@ = %@",name,describeObj(value, circle));
         [printString appendString:tapString(string)];
     }
     
     [printString appendString:@"\n}"];
 
-    // subClass
-    Class superClass = class_getSuperclass(class);
-    if (![NSObject isSubclassOfClass:superClass]) {
-        NSString *string = __LcString(@"\n%@SuperClass: %@",superClassStar(level+1),
-                                      __describeObj(object,superClass, level+1));
-        [printString appendString:string];
-    }
     
     return printString;
 }
@@ -242,15 +243,6 @@ static inline NSArray *propertyAndIvarNames(Class class)
         ivarIndex++;
     }
     return names;
-}
-
-static inline NSString *superClassStar(NSUInteger starCount)
-{
-    NSMutableString *star = [NSMutableString string];
-    for (int i = 0; i < starCount; i++) {
-        [star appendString:@"❣️"];
-    }
-    return star;
 }
 
 

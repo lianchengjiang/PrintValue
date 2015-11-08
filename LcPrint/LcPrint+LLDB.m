@@ -17,7 +17,12 @@
 
 void o(id obj)
 {
-    printf("❤️RootClass: %s\n",[describeObj(obj) UTF8String]);
+    printf("%s\n",[describeObj(obj, NO) UTF8String]);
+}
+
+void oo(id obj)
+{
+    printf("%s\n",[describeObj(obj, YES) UTF8String]);
 }
 
 void v(id view)
