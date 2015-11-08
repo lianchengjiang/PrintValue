@@ -9,13 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-union UNION {
-    int a;
-    float b;
-};
-
-typedef union UNION  UNION;
-
 @interface FatherModel : NSObject
 {
     CGSize size;
@@ -39,9 +32,7 @@ typedef union UNION  UNION;
 {
     NSURL *_URL;
 }
-//@property (nonatomic, strong)NSString *string;
 @property (nonatomic, strong)NSNumber *number;
-//@property (nonatomic, strong)NSURL *URL;
 @property (nonatomic, strong)NSSet *set;
 @property (nonatomic, strong)NSDictionary *dictionary;
 
@@ -57,9 +48,6 @@ typedef union UNION  UNION;
 @property (nonatomic, strong)NSDate *date;
 @property (nonatomic, assign)CGPoint point;
 @property (nonatomic, strong)NSArray *array;
-@property (nonatomic, strong)Class class;
-@property (nonatomic, assign)SEL sel;
-@property (nonatomic, assign)UNION uion;
 - (void)setIvar;
 
 @end
