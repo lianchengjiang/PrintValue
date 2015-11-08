@@ -217,30 +217,30 @@ print basic type:
     
 	---------result----------
 	
-	❤️ViewController.m, -[ViewController test], Line:40
-	(int)1 = (int)1
-	❤️ViewController.m, -[ViewController test], Line:41
-	(short)1 = (short)1
-	❤️ViewController.m, -[ViewController test], Line:42
-	(long)1 = (long)1
-	❤️ViewController.m, -[ViewController test], Line:43
-	(unsigned int)1 = (unsigned int)1
-	❤️ViewController.m, -[ViewController test], Line:44
-	(unsigned short)1 = (unsigned short)1
-	❤️ViewController.m, -[ViewController test], Line:45
-	(unsigned long)1 = (unsigned long)1
-	❤️ViewController.m, -[ViewController test], Line:46
-	(float)1.72 = (float)-2
-	❤️ViewController.m, -[ViewController test], Line:47
-	(double)1.432 = (double)1.432
-	❤️ViewController.m, -[ViewController test], Line:48
-	__objc_yes = (BOOL)YES
-	❤️ViewController.m, -[ViewController test], Line:49
-	(char)'c' = (char)'c'
-	❤️ViewController.m, -[ViewController test], Line:50
-	(unsigned char)'a' = (unsigned char)'a'
-	❤️ViewController.m, -[ViewController test], Line:51
-	[self class] = (Class)ViewController    
+	ViewController.m, -[ViewController test], Line:35
+	❤️(int)1 = (int)1
+	ViewController.m, -[ViewController test], Line:36
+	❤️(short)1 = (short)1
+	ViewController.m, -[ViewController test], Line:37
+	❤️(long)1 = (long)1
+	ViewController.m, -[ViewController test], Line:38
+	❤️(unsigned int)1 = (unsigned int)1
+	ViewController.m, -[ViewController test], Line:39
+	❤️(unsigned short)1 = (unsigned short)1
+	ViewController.m, -[ViewController test], Line:40
+	❤️(unsigned long)1 = (unsigned long)1
+	ViewController.m, -[ViewController test], Line:41
+	❤️(float)1.72 = (float)-2
+	ViewController.m, -[ViewController test], Line:42
+	❤️(double)1.432 = (double)1.432
+	ViewController.m, -[ViewController test], Line:43
+	❤️__objc_yes = (BOOL)YES
+	ViewController.m, -[ViewController test], Line:44
+	❤️(char)'c' = (char)'c'
+	ViewController.m, -[ViewController test], Line:45
+	❤️(unsigned char)'a' = (unsigned char)'a'
+	ViewController.m, -[ViewController test], Line:46
+	❤️[self class] = (Class)ViewController   
 
 print system struct type:
 
@@ -268,37 +268,37 @@ print system struct type:
 
    	---------result---------- 
    	   	
-    ❤️ViewController.m, -[ViewController test], Line:64
-	point = (CGPoint){x = 3.8, y = 4.1}
-	❤️ViewController.m, -[ViewController test], Line:65
-	size = (CGSize){width = 8.3, height = 9.9}
-	❤️ViewController.m, -[ViewController test], Line:66
-	vector = (CGVector){dx = 0.4, dy = 7.4}
-	❤️ViewController.m, -[ViewController test], Line:67
-	range = (NSRange){location = 3, length = 4}
-	❤️ViewController.m, -[ViewController test], Line:68
-	cfRange = (CFRange){location = 2, length = 6}
-	❤️ViewController.m, -[ViewController test], Line:69
-	transform = (CGAffineTransform){
+    ViewController.m, -[ViewController test], Line:59
+	❤️point = (CGPoint)(x = 3.8, y = 4.1)
+	ViewController.m, -[ViewController test], Line:60
+	❤️size = (CGSize)(width = 8.3, height = 9.9)
+	ViewController.m, -[ViewController test], Line:61
+	❤️vector = (CGVector)(dx = 0.4, dy = 7.4)
+	ViewController.m, -[ViewController test], Line:62
+	❤️range = (NSRange)(location = 3, length = 4)
+	ViewController.m, -[ViewController test], Line:63
+	❤️cfRange = (CFRange)(location = 2, length = 6)
+	ViewController.m, -[ViewController test], Line:64
+	❤️transform = (CGAffineTransform)(
 		a = 1.3, b = 2.4, c = 4.5, d = 3
 		tx = 6, ty = 6.3
-	}
-	❤️ViewController.m, -[ViewController test], Line:70
-	transform3D = (CATransform3D){
+	)
+	ViewController.m, -[ViewController test], Line:65
+	❤️transform3D = (CATransform3D)(
 		m11 = 1, m12 = 0, m13 = 0, m14 = 0
 		m21 = 0, m22 = 1, m23 = 0, m24 = 0
 		m31 = 0, m32 = 0, m33 = 1, m34 = 0
 		m41 = 0, m42 = 0, m43 = 1, m44 = 0
-	}
-	❤️ViewController.m, -[ViewController test], Line:71
-	offset = (UIOffset){horizontal = 5.2, vertical = 2}
-	❤️ViewController.m, -[ViewController test], Line:72
-	insets = (UIEdgeInsets){top = 9.3, left = 3.2, bottom = 2.1, right = 4.5}
-	❤️ViewController.m, -[ViewController test], Line:73
-	rect = (CGRect){
-		CGPoint = {x = 0, y = 0.4}
-		CGSize  = {width = 8.3, height = 8.1}
-	}
+	)
+	ViewController.m, -[ViewController test], Line:66
+	❤️offset = (UIOffset)(horizontal = 5.2, vertical = 2)
+	ViewController.m, -[ViewController test], Line:67
+	❤️insets = (UIEdgeInsets)(top = 9.3, left = 3.2, bottom = 2.1, right = 4.5)
+	ViewController.m, -[ViewController test], Line:68
+	❤️rect = (CGRect)(
+		CGPoint = (x = 0, y = 0.4)
+		CGSize  = (width = 8.3, height = 8.1)
+	)
 
 print object :
         
@@ -324,17 +324,38 @@ print object :
     LcPrint(model);
    	---------result---------- 
 
-	❤️ViewController.m, -[ViewController test], Line:94
-	model = (Model *){
-		string = (NSString *)modelString
-		number = (double)3.54
-		URL = (NSURL *)http://www.baidu.com
-		date = (NSDate *)2015-11-06 04:20:46 +0000
+	ViewController.m, -[ViewController test], Line:89
+	❤️model = (Model *){
+		size = (CFRange)(width = 8.3, height = 9.9)
+		vector = (CFRange)(dx = 0.4, dy = 7.4)
+		rect = (CFRange)(
+			CGPoint = (x = 0, y = 0.4)
+			CGSize  = (width = 8.3, height = 8.1)
+		)
+		nsRange = (CFRange)(location = 3, length = 4)
+		cfRange = (CFRange)(location = 2, length = 6)
+		transform = (CFRange)(
+			a = 1.3, b = 2.4, c = 4.5, d = 3
+			tx = 6, ty = 6.3
+		)
+		transform3D = (CFRange)(
+			m11 = 1, m12 = 0, m13 = 0, m14 = 0
+			m21 = 0, m22 = 1, m23 = 0, m24 = 0
+			m31 = 0, m32 = 0, m33 = 1, m34 = 0
+			m41 = 0, m42 = 0, m43 = 1, m44 = 0
+		)
+		offset = (CFRange)(horizontal = 5.2, vertical = 2)
+		edge = (CFRange)(top = 9.3, left = 3.2, bottom = 2.1, right = 4.5)
+		point = (CFRange)(x = 3.8, y = 4.1)
 		array = (NSArray *)[
 			(NSString *)a
 			(NSString *)b
 			(NSString *)c
 		]
+		string = (NSString *)modelString
+		URL = (NSURL *)http://www.baidu.com
+		date = (NSDate *)2015-11-08 13:53:26 +0000
+		number = (double)3.54
 		set = (NSSet *)[
 			(NSString *)set1
 			(NSString *)set2
@@ -342,29 +363,7 @@ print object :
 		dictionary = {
 			key:(NSString *)valur
 		}
-		point = (CGPoint){x = 3.8, y = 4.1}
-		size = (CGSize){width = 8.3, height = 9.9}
-		vector = (CGVector){dx = 0.4, dy = 7.4}
-		rect = (CGRect){
-			CGPoint = {x = 0, y = 0.4}
-			CGSize  = {width = 8.3, height = 8.1}
-		}
-		nsRange = (NSRange){location = 3, length = 4}
-		cfRange = (CFRange){location = 2, length = 6}
-		transform = (CGAffineTransform){
-			a = 1.3, b = 2.4, c = 4.5, d = 3
-			tx = 6, ty = 6.3
-		}
-		transform3D = (CATransform3D){
-			m11 = 1, m12 = 0, m13 = 0, m14 = 0
-			m21 = 0, m22 = 1, m23 = 0, m24 = 0
-			m31 = 0, m32 = 0, m33 = 1, m34 = 0
-			m41 = 0, m42 = 0, m43 = 1, m44 = 0
-		}
-		offset = (UIOffset){horizontal = 5.2, vertical = 2}
-		edge = (UIEdgeInsets){top = 9.3, left = 3.2, bottom = 2.1, right = 4.5}
-	}
-
+	}(Model *)
 ###use `p LcPrintViews()` circle print view's subviews
 it the same of `p v()` in lldb.
 
