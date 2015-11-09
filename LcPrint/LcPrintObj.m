@@ -14,6 +14,7 @@
 #import "LcPrintMacro.h"
 #import "LcPrintUtility.h"
 
+static NSMutableArray *stackClassList;
 
 static NSArray *basicClusterClassList;
 static NSArray *basicNormalClassList;
@@ -114,6 +115,12 @@ static inline NSString *describeNSObject(id object, Class class, BOOL circle)
         return [object description];
     }
     
+    if ([stackClassList containsObject:NSStringFromClass(class)]) {
+        return [object description];
+    }
+    
+    [stackClassList addObject:NSStringFromClass(class)];
+    
     NSMutableString *printString = [NSMutableString string];
     [printString appendFormat:@"(%@ *){",class];
     
@@ -142,6 +149,7 @@ static inline NSString *describeNSObject(id object, Class class, BOOL circle)
     
     [printString appendFormat:@"\n}(%@ *)",class];
 
+    [stackClassList removeObject:NSStringFromClass(class)];
     
     return printString;
 }
@@ -202,8 +210,9 @@ static inline void initClassList()
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        basicClusterClassList = @[@"NSString",@"NSDate",];
-        basicNormalClassList = @[@"UIView",@"UIViewController",@"NSURL",];
+        stackClassList = [NSMutableArray array];
+        basicClusterClassList = @[@"NSString",@"NSDate",@"UIColor",];
+        basicNormalClassList = @[@"UIView",@"UIViewController",@"NSURL",@"UIWindow",@"UILabel",@"UIButton",@"UIActivity",@"UIActivityIndicatorView",@"UIActionSheet",@"UIActivityViewController",@"UIAlertView",@"UIControl",@"UIDevice",@"UIDocument",@"UIEvent",@"UIFont",@"UIImage",@"UINib",@"UIPageControl",@"UIPickerView",@"UIScreen",@"UITableViewCell",@"UITableView"];
         setClassList = @[@"NSArray",@"NSSet",@"NSOrderedSet",@"NSPointerArray"];
     });
     
