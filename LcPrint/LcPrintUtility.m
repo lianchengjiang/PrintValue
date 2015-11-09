@@ -14,6 +14,8 @@
 static inline NSString *propertyNameFromIvarName(NSString *name);
 static inline id __lc_custom_value_for_key(id object, NSString *key);
 static inline const char *__lc_useful_type_from_ivar_type(const char *ivarType);
+static inline const BOOL __lc_has_contain_char(char *string, char c);
+
 NSString *__lc_unknown_type = @"unknown type";
 
 NSArray *__lc_ivar_name_list(Class class)
@@ -121,16 +123,15 @@ static inline id __lc_value_for_sel(id object, SEL sel)
         return nil;
     }
     
-    if (type[0] == ':'||
-        type[0] == '?'||
-        type[0] == '^'||
-        type[0] == 'b'||
-        type[0] == '('||
-        type[0] == '[')
+    //unknown type
+    if (__lc_has_contain_char((char*)type, '?')||
+        __lc_has_contain_char((char*)type, ':')||
+        __lc_has_contain_char((char*)type, 'b')||
+        __lc_has_contain_char((char*)type, '(')||
+        __lc_has_contain_char((char*)type, '['))
     {
         return __lc_unknown_type;
     }
-    
     
     if (strcmp(type, @encode(id)) == 0||
         strcmp(type, @encode(Class)) == 0)
@@ -180,17 +181,16 @@ static inline id __lc_value_for_ivar(id object, Ivar ivar)
     }
     
     //unknown type
-    if (type[0] == ':'||
-        type[0] == '?'||
-        type[0] == '^'||
-        type[0] == 'b'||
-        type[0] == '('||
-        type[0] == '*'||
-        type[0] == '[')
+    if (__lc_has_contain_char((char*)type, '?')||
+        __lc_has_contain_char((char*)type, ':')||
+        __lc_has_contain_char((char*)type, 'b')||
+        __lc_has_contain_char((char*)type, '(')||
+        __lc_has_contain_char((char*)type, '['))
     {
-        return @"unknown type";
+        return __lc_unknown_type;
     }
 
+    
     //id
     if (strcmp(type, @encode(id)) == 0) {
         return object_getIvar(object, ivar);
@@ -272,6 +272,15 @@ static inline const char *__lc_useful_type_from_ivar_type(const char *ivarType)
     return type;
 }
 
+
+static inline const BOOL __lc_has_contain_char(char *string, char c)
+{
+    NSRange range = [__LcString(@"%s",string) rangeOfString:__LcString(@"%c",c)];
+    if (range.length > 0) {
+        return YES;
+    }
+    return NO;
+}
 
 
 
