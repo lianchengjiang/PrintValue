@@ -15,7 +15,7 @@ static inline NSString *__describeInner(id object, Class class, BOOL circle);
 
 NSString *describInner(id object, BOOL circlePrintSuper)
 {
-    return __describeInner(object, [object class], circlePrintSuper);
+    return __describeInner(object, object_getClass(object);, circlePrintSuper);
 }
 
 static inline NSString *__describeVar(Class class)

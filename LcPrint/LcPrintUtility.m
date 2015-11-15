@@ -233,7 +233,7 @@ static inline id __lc_custom_value_for_key(id object, NSString *key)
         value = __lc_value_for_sel(object, sel);
     }
     
-    Class class = [object class];
+    Class class = object_getClass(object);
     
     Ivar ivar = class_getInstanceVariable(class, [key UTF8String]);
     if (!ivar) {

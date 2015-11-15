@@ -31,7 +31,7 @@ static inline NSString *describeNSObject(id object, Class class,  BOOL circle);
 
 NSString *describeObj(id object, BOOL circlePrintSuper)
 {
-    return __describeObj(object, [object class], circlePrintSuper);
+    return __describeObj(object, object_getClass(object), circlePrintSuper);
 }
 
 static inline NSString *__describeObj(id object, Class class, BOOL circle)
