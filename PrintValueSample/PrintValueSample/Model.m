@@ -24,6 +24,11 @@
     _string = @"____string";
     _URL = [NSURL URLWithString:@"www.google.com"];
 }
+
+- (SEL)sele
+{
+    return @selector(setValue:forKey:);
+}
 @end
 
 

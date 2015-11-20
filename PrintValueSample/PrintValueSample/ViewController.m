@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "Model.h"
 #import "LcPrint.h"
+#import "LcPrint+LLDB.h"
 
 @interface ViewController ()
 
@@ -20,7 +21,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
    
-    LcPrintViews(self.view);
+//    LcPrintViews(self.view);
+    
+    int a= 10;
+    id value = @(a);
     
     [self test];
 }
@@ -62,17 +66,13 @@
 //    LcPrint(offset);
 //    LcPrint(insets);
 //    LcPrint(rect);
-    
+    LcPrint(self.view);
     SonModel *model = [SonModel new];
-//    model.string = @"modelString";
     model.number = @(3.54);
-//    model.URL = [NSURL URLWithString:@"http://www.baidu.com"];
     model.date = [NSDate date];
-    model.array = @[@"a",@"b",@"c"];
     model.dictionary = @{@"key":@"valur"};
     model.set = [NSSet setWithObjects:@"set1",@"set2", nil];
     model.point = point;
-//    model.size = size;
     model.vector = vector;
     model.nsRange = range;
     model.cfRange = cfRange;
@@ -82,8 +82,12 @@
     model.edge = insets;
     model.rect = rect;
     [model setIvar];
-    
+//    id value =[model valueForKey:@"charPoint"];
+    Model *father = [Model new];
+    model.array = @[father,father];
+    oo(model);
     LcPrint(model);
+//    LcPrint(model);
 }
 
 - (void)didReceiveMemoryWarning {

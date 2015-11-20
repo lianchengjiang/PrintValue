@@ -39,7 +39,7 @@ NSString *describeVar(const char *type, ...)
     
     if (strcmp(type, @encode(id)) == 0) {
         id obj = va_arg(variable_param_list, id);
-        return describeObj(obj);
+        return describeObj(obj, NO);
     }
     
     return __describeVar(type, variable_param_list);

@@ -12,31 +12,29 @@
 #import "LcPrint.h"
 #import "LcStringFromStruct.h"
 #import "LcPrintMacro.h"
+#import "LcPrintUtility.h"
 
+static NSMutableArray *stackClassList;
 
 static NSArray *basicClusterClassList;
 static NSArray *basicNormalClassList;
 static NSArray *setClassList;
 static inline void initClassList();
 
-static inline NSString *__describeObj(id object, Class class, NSUInteger level);
-static inline NSString *tapString(NSString *string);
+static inline NSString *__describeObj(id object, Class class, BOOL circle);
 static inline NSString *describeBasicClass(NSString *classString,id object);
 static inline NSString *describeNSValue(NSValue *value);
-static inline NSString *describeSet(NSString *setClass,NSSet *list);
-static inline NSString *describeDictionary(NSDictionary *map);
-static inline NSString *describeNSObject(id object, Class class, NSUInteger level);
-static inline NSArray *propertyAndIvarNames(Class class);
-
-static inline NSString *superClassStar(NSUInteger starCount);
+static inline NSString *describeSet(NSString *setClass,NSSet *list, BOOL circle);
+static inline NSString *describeDictionary(NSDictionary *map, BOOL circle);
+static inline NSString *describeNSObject(id object, Class class,  BOOL circle);
 
 
-NSString *describeObj(id object)
+NSString *describeObj(id object, BOOL circlePrintSuper)
 {
-    return __describeObj(object, [object class], 0);
+    return __describeObj(object, object_getClass(object), circlePrintSuper);
 }
 
-static inline NSString *__describeObj(id object, Class class, NSUInteger level)
+static inline NSString *__describeObj(id object, Class class, BOOL circle)
 {
     initClassList();
     
@@ -65,74 +63,93 @@ static inline NSString *__describeObj(id object, Class class, NSUInteger level)
     //容器类型(类族)
     for (NSString *setClass in setClassList) {
         if ([object isKindOfClass:NSClassFromString(setClass)]) {
-            return describeSet(setClass, object);
+            return describeSet(setClass, object, circle);
         }
     }
     
     //字典类型(类族)
     if ([object isKindOfClass:[NSDictionary class]]) {
-        return describeDictionary(object);
+        return describeDictionary(object, circle);
     }
     
     //自定义类型
-    return describeNSObject(object, class, level);
+    return describeNSObject(object, class, circle);
 }
 
 #pragma mark - handle
 
 static inline NSString *describeBasicClass(NSString *classString,id object)
 {
+    if ([object isEqual:__lc_unknown_type]) {
+        return object;
+    }
     return __LcString(@"(%@ *)%@",classString,object);
 }
 
-static inline NSString *describeSet(NSString *setClass,NSSet *list)
+static inline NSString *describeSet(NSString *setClass,NSSet *list, BOOL circle)
 {
     NSMutableString *printString = [NSMutableString string];
     [printString appendFormat:@"(%@ *)[",setClass];
     for (id value in list) {
-        NSString *string = __LcString(@"\n%@",describeObj(value));
-        [printString appendString:tapString(string)];
+        NSString *string = __LcString(@"\n%@",describeObj(value, circle));
+        [printString appendString:__lc_tap_string(string)];
     }    [printString appendString:@"\n]"];
     return printString;
 }
 
-static inline NSString *describeDictionary(NSDictionary *map)
+static inline NSString *describeDictionary(NSDictionary *map, BOOL circle)
 {
     NSMutableString *printString = [NSMutableString string];
     [printString appendString:@"{"];
     for (id key in map.allKeys) {
-        NSString *string = __LcString(@"\n%@:%@",key,describeObj(map[key]));
-        [printString appendString:tapString(string)];
+        NSString *string = __LcString(@"\n%@:%@",key,describeObj(map[key], circle));
+        [printString appendString:__lc_tap_string(string)];
     }
     [printString appendString:@"\n}"];
     return printString;
 }
 
-static inline NSString *describeNSObject(id object, Class class, NSUInteger level)
+static inline NSString *describeNSObject(id object, Class class, BOOL circle)
 {
     if ([NSObject isSubclassOfClass:class]) {
         return [object description];
     }
     
+    if ([stackClassList containsObject:NSStringFromClass(class)]) {
+        return [object description];
+    }
+    
+    [stackClassList addObject:NSStringFromClass(class)];
+    
     NSMutableString *printString = [NSMutableString string];
     [printString appendFormat:@"(%@ *){",class];
     
-    NSArray *names = propertyAndIvarNames(class);
-    for (NSString *name in names) {
-        id value = [object valueForKey:name];
-        NSString *string = __LcString(@"\n%@ = %@",name,describeObj(value));
-        [printString appendString:tapString(string)];
+    //循环打印父类
+    if (circle) {
+        Class superClass = class_getSuperclass(class);
+        if (![NSObject isSubclassOfClass:superClass]) {
+            NSString *string = __LcString(@"\n%@",(__describeObj(object,superClass, circle)));
+            [printString appendString:__lc_tap_string(string)];
+        }
     }
     
-    [printString appendString:@"\n}"];
-
-    // subClass
-    Class superClass = class_getSuperclass(class);
-    if (![NSObject isSubclassOfClass:superClass]) {
-        NSString *string = __LcString(@"\n%@SuperClass: %@",superClassStar(level+1),
-                                      __describeObj(object,superClass, level+1));
-        [printString appendString:string];
+    //打印本类的属性
+    NSArray *names = __lc_property_ivar_name_list(class);
+    
+    //如果本类没有属性，并且不打印父类，则直接返回description
+    if (names.count == 0 && !circle) {
+        return [object description];
     }
+    
+    for (NSString *name in names) {
+        id value = __lc_value_for_key(object, name);
+        NSString *string = __LcString(@"\n%@ = %@",name,describeObj(value, circle));
+        [printString appendString:__lc_tap_string(string)];
+    }
+    
+    [printString appendFormat:@"\n}(%@ *)",class];
+
+    [stackClassList removeObject:NSStringFromClass(class)];
     
     return printString;
 }
@@ -193,59 +210,15 @@ static inline void initClassList()
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        basicClusterClassList = @[@"NSString",@"NSDate",];
-        basicNormalClassList = @[@"UIView",@"UIViewController",@"NSURL",];
+        stackClassList = [NSMutableArray array];
+        basicClusterClassList = @[@"NSString",@"NSDate",@"UIColor",];
+        basicNormalClassList = @[@"UIView",@"UIViewController",@"NSURL",@"UIWindow",@"UILabel",@"UIButton",@"UIActivity",@"UIActivityIndicatorView",@"UIActionSheet",@"UIActivityViewController",@"UIAlertView",@"UIControl",@"UIDevice",@"UIDocument",@"UIEvent",@"UIFont",@"UIImage",@"UINib",@"UIPageControl",@"UIPickerView",@"UIScreen",@"UITableViewCell",@"UITableView"];
         setClassList = @[@"NSArray",@"NSSet",@"NSOrderedSet",@"NSPointerArray"];
     });
     
     return;
 }
 
-static inline NSString *tapString(NSString *string)
-{
-    return [string stringByReplacingOccurrencesOfString:@"\n" withString:@"\n\t"];
-}
-
-static inline NSArray *propertyAndIvarNames(Class class)
-{
-    NSMutableArray *names = [NSMutableArray array];
-    uint propertyCount;
-    objc_property_t *propertyList = class_copyPropertyList(class, &propertyCount);
-    for (int i = 0; i < propertyCount; i++) {
-        objc_property_t property = propertyList[i];
-        const char *name = property_getName(property);
-        [names addObject:@(name)];
-    }
-    
-    //ivar
-    uint ivarCount;
-    Ivar *ivarList = class_copyIvarList(class, &ivarCount);
-    uint ivarIndex = 0;
-    for (int i = 0; i < ivarCount; i++) {
-        Ivar ivar = ivarList[i];
-        const char *cName = ivar_getName(ivar);
-        NSString *name = @(cName);
-        
-        //过滤Ivar和property相同的属性
-        NSString *propertyName = [name stringByReplacingOccurrencesOfString:@"_" withString:@"" options:0 range:NSMakeRange(0, 1)];
-        if ([names containsObject:propertyName]) {
-            continue;
-        }
-        //使用ivarIndex 主要是为了Ivar在Property前面，并且顺序正确
-        [names insertObject:name atIndex:ivarIndex];
-        ivarIndex++;
-    }
-    return names;
-}
-
-static inline NSString *superClassStar(NSUInteger starCount)
-{
-    NSMutableString *star = [NSMutableString string];
-    for (int i = 0; i < starCount; i++) {
-        [star appendString:@"❣️"];
-    }
-    return star;
-}
 
 
 

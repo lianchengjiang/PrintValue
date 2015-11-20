@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+
 @interface FatherModel : NSObject
 {
     CGSize size;
@@ -31,9 +32,7 @@
 {
     NSURL *_URL;
 }
-//@property (nonatomic, strong)NSString *string;
 @property (nonatomic, strong)NSNumber *number;
-//@property (nonatomic, strong)NSURL *URL;
 @property (nonatomic, strong)NSSet *set;
 @property (nonatomic, strong)NSDictionary *dictionary;
 
@@ -49,7 +48,6 @@
 @property (nonatomic, strong)NSDate *date;
 @property (nonatomic, assign)CGPoint point;
 @property (nonatomic, strong)NSArray *array;
-
 - (void)setIvar;
 
 @end

@@ -8,4 +8,4 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString *describeObj(id object);
+NSString *describeObj(id object, BOOL circlePrintSuper);
